@@ -1,9 +1,13 @@
 const User = require('../models/Users');
-const { fetchExternalData } = require('../middleware/calcMiddleware');
+const { fetchExternalData } = require('../middleware/apiMiddleware');
 
 //handle errors
 const handleErrors = (err) => {
     console.log(err.message, err.code);
+}
+
+module.exports.calculate_get = (req, res) => {
+    res.render('calculate');
 }
 
 module.exports.calculate_post = async (req, res) => {
@@ -66,8 +70,8 @@ module.exports.calculate_post = async (req, res) => {
         const coveredSurface = surfaceCalc(weight,height,clothingChoice);
         const sunscreenResult = coveredSurface * minAmount;
         const rateResult = reapplicationRate(indoorOutdoorSelection, plannedActivities)
-        console.log(coveredSurface);
-        console.log(minAmount);
+        //console.log(coveredSurface);
+        //console.log(minAmount);
         console.log(sunscreenResult);
         console.log(rateResult);
         res.status(201).json({ sunscreenResult : sunscreenResult, rateResult : rateResult });
@@ -78,14 +82,3 @@ module.exports.calculate_post = async (req, res) => {
         res.status(400).json({ errors });
     }
 }
-
-/*router.get('/:id', (req, res) => {
-    const id = req.params.id;
-    Blog.findById(id)
-        .then((result) => {
-            res.render('details', { title: 'Blog Details', blog: result });
-        })
-        .catch((err) =>{
-            console.log(err);
-        });
-})*/

@@ -92,20 +92,22 @@ module.exports.accountsetup_post = async (req, res) => {
     }
 }
 
-module.exports.userpage_get = async (req, res) => {
+module.exports.status_get = (req, res) => {
+    const token = req.cookies.jwt;
 
-    try {
-        let userId = req.params.detailId; //detailId = userId
-        console.log(req.params.detailId);
-        let accountDetails = await Detail.find({userId});
-
-        console.log(accountDetails[0].height);
-        res.render('userpage', { accountDetails });
-    } catch(err) {
-        console.log(err);
-        res.redirect('/error');
+    if(token){
+        jwt.verify(token, 'claudia secret', async (err, decodedToken) => {
+            if(err){
+                console.log(err.message);
+                res.json({ user: null });
+            } else {
+                let user = await User.findById(decodedToken.id);
+                res.json({ user });
+            }
+        })
+    } else {
+        res.json({ user: null});
     }
-        
 }
 
 module.exports.login_post = async (req, res) => {
