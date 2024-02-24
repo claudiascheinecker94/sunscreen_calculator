@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 const useAuthStatus = () => {
 
@@ -36,4 +37,16 @@ const useAuthStatus = () => {
     return { user };
 }
 
-export default useAuthStatus;
+const useSecureRouting  = (user) => {
+    const navigate = useNavigate(); 
+    const { id } = useParams();
+
+    useEffect(() => {
+        if (user && user._id !== id) {
+            navigate('/logout')
+          }
+    }, [user, id, navigate])
+}
+
+
+export {useAuthStatus, useSecureRouting};

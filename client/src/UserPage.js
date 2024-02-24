@@ -1,13 +1,13 @@
 import { set } from 'mongoose';
 import { useState, useEffect } from 'react';
-import {Route, Link, Routes, useParams, useNavigate} from 'react-router-dom';
-import useAuthStatus from './Helper';
+import {Route, Link, Routes, useParams} from 'react-router-dom';
+import {useAuthStatus, useSecureRouting}  from './Helper';
 
 const UserPage = () => {
     //https://bobbyhadz.com/blog/react-router-get-id-from-url#:~:text=Use%20the%20useParams()%20hook,e.g.%20const%20params%20%3D%20useParams()%20.
     const { id } = useParams();
     const { user } = useAuthStatus();
-    const navigate = useNavigate();
+    useSecureRouting(user);
 
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
@@ -15,11 +15,7 @@ const UserPage = () => {
     const [skinType, setSkinType] = useState('');
     const [changed, setChanged] = useState(false);
 
-    useEffect(() => {
-        if (user && user._id !== id) {
-            navigate('/logout')
-          }
-    }, [user, id, navigate])
+    
 
     useEffect(() => {
         const checkUserDetails = async () => {

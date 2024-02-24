@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import useAuthStatus from './Helper';
+import { useAuthStatus } from './Helper';
 
 
 const Navbar = () => {
