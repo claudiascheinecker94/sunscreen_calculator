@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Routes, useParams } from  "react-router-dom";
 import Navbar from './Navbar';
 import Home from './Home';
 import Login from './Login';
@@ -7,8 +8,8 @@ import Signup from './Signup';
 import AccountSetup from './AccountSetup';
 import UserPage from './UserPage';
 import Calculate from './Calculate';
-import { BrowserRouter as Router, Route, Routes } from  "react-router-dom";
-import { useState, useEffect } from 'react';
+import GoalProgress from './GoalProgress';
+import NewsRecommendations from './NewsRecommendations';
 import NotFound from './NotFound';
 import authStatus from './Helper';
 
@@ -28,6 +29,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/accountsetup/:id" element={<AccountSetup />} />
             <Route path="/userpage/:id" element={<UserPage />} />
+            <Route path="/userpage/:id/goals" element={<GoalProgress />} />
+            <Route path="/userpage/:id/news" element={<NewsRecommendations />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/calculate" element={<Calculate />} />
             <Route path="*" element={<NotFound />} />

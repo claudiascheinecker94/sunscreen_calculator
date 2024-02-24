@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import useAuthStatus from './Helper';
@@ -7,15 +7,15 @@ import useAuthStatus from './Helper';
 const Navbar = () => {
 
     const { user } = useAuthStatus();
-
+    
     return ( 
         <nav>
             <div className="home">
                 { user && (
                     <div >
-                        <Link to="/calculate">Calculate</Link>
-                        <Link to="/goals">Goals & Progress</Link>
-                        <Link to="/news">News & Recommendations</Link>
+                        <Link to={'/userpage/' + user._id}>Calculate</Link>
+                        <Link to={'/userpage/' + user._id + '/goals'}>Goals & Progress</Link>
+                        <Link to={'/userpage/' + user._id + '/news'}>News & Recommendations</Link>
                         <Link to="/logout">Logout</Link>
                     </div>
                 )}
