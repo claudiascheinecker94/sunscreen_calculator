@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Select from 'react-select';
+import { components } from "react-select";
 
 const Calculate = () => {
+
+    //set form answers
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
     const [age, setAge] = useState('');
@@ -10,13 +14,80 @@ const Calculate = () => {
     const [inOut, setInOut] = useState('');
     const [plannedActivities, setPlannedActivities] = useState('');
 
+    //provide image dropdown options for skinType, plannedActiviedies and inOut
+    const { SingleValue, Option } = components;
+
+    //https://stackoverflow.com/questions/45940726/populate-react-select-with-image
+    const ImgSingleValue = (props, data) => (
+        <SingleValue {...props}>
+            {/* <img src={props.data.image} alt={props.data.label} className="dropdown-img"/> */}
+            {props.data.label}
+        </SingleValue>
+    );
+    
+    const ImgOption = (props, data) => (
+        <Option {...props}>
+            <img src={props.data.image} alt={data.label} className="dropdown-img"/>
+            {props.data.label}
+        </Option>
+    );
+    
+    //dropdown options for form
+    const skinTypeFormOptions = 
+    [
+          {value: '1', label: 'Skin Type 1', image: 'skintype1.png'},
+          {value: '2', label: 'Skin Type 2', image: 'skintype2.png'},
+          {value: '3', label: 'Skin Type 3', image: 'skintype3.png'},
+          {value: '4', label: 'Skin Type 4', image: 'skintype4.png'},
+          {value: '5', label: 'Skin Type 5', image: 'skintype5.png'},
+          {value: '6', label: 'Skin Type 6', image: 'skintype6.png'},
+    ];
+
+    const indoorOutdoorFormOptions = 
+    [
+          {value: '1', label: 'Primarily Indoor'},
+          {value: '2', label: 'Primarily Outdoor'},
+          {value: '3', label: 'Equal Time Indoor/Outdoor'},
+    ];
+
+    const clothingChoiceFormOptions = 
+    [
+          {value: '1', label: 'Long Trousers/Skirts', image: 'Long_Bottoms.png'},
+          {value: '2', label: 'Short Trousers/Skirts', image: 'Short_Bottoms.png'},
+          {value: '3', label: 'Long Sleeves', image: 'Long_Sleeves.png'},
+          {value: '4', label: 'Short Sleeves', image: 'Short_Sleeves.png'},
+          {value: '5', label: 'Tank Top', image: 'Extra_Short_Sleeves.png'},
+          {value: '6', label: 'Long Dress', image: 'Long_Dress.png'},
+          {value: '7', label: 'Short Dress', image: 'Short_Dress.png'},
+    ];
+
+    const plannedActivitiesFormOptions = 
+    [
+          {value: 'sand', label: 'Beach Day', image: 'beach.png'},
+          {value: 'water', label: 'Indoor/Outdoor Swimming', image: 'swimming.png'},
+          {value: 'sweat', label: 'Indoor Exercise', image: 'indoor_exercise.png'},
+          {value: 'sweat+sun', label: 'Outdoor Exercise', image: 'outdoor_sports.webp'},
+    ];
+
+    //trying to make dropdown options to be required
+    const [isDropdownValid, setIsDropdownValid] = useState(false);
+
+    // useEffect(() => {
+    //     if(params){
+    //         setIsDropdownValid = true;
+    //     }
+    //   }, [params]);
+
     const [isPending, setIsPending] = useState(false);
     const [result, setResult] = useState('');
     const navigate = useNavigate();
 
+
+    //post form answers
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const params = { height, weight };
+        const params = { height, weight, skinType, clothingChoice, inOut, plannedActivities };
+        console.log(params);
 
         setIsPending(true);
         
@@ -42,77 +113,79 @@ const Calculate = () => {
         <div className="create">
             <h2>Daily Sunscreen Need</h2>
             <form onSubmit={handleSubmit}>
+                <br></br>
                 <label>Height (in cm):</label>
                 <input
-                    type="number" 
+                    className="form-fields"
+                    id="number" 
                     required
                     value={height}
                     onChange={(e) => setHeight(e.target.value)}
                 />
+                <br></br>
+                <br></br>
                 <label>Weight (in kg):</label>
                 <input
-                type="number"
-                required
-                value={weight}
-                onChange={(e) => setWeight(e.target.value)}
+                    className="form-fields"
+                    type="number"
+                    required
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
                 />
+                <br></br>
+                <br></br>
                 <label>Age (in years):</label>
                 <input
+                    className="form-fields"
                     type="number" 
                     required
                     value={age}
                     onChange={(e) => setAge(e.target.value)}
                 />
-                <label>Skin Type:</label>
-                <select className="dropdown"
-                    value={skinType}
-                    onChange={(e) => setSkinType(e.target.value)}
-                >
-                    <option value="notset">-</option>
-                    <option value="one">1</option>
-                    <option value="two">2</option>
-                    <option value="three">3</option>
-                    <option value="four">4</option>
-                    <option value="five">5</option>
-                    <option value="six">6</option>
-                </select>
-                <label>Clothing Choice for the day:</label>
-                <select className="dropdown"
-                    value={clothingChoice}
-                    onChange={(e) => setClothingChoice(e.target.value)}
-                >
-                    <option value="notset">-</option>
-                    <option value="one">1</option>
-                    <option value="two">2</option>
-                    <option value="three">3</option>
-                    <option value="four">4</option>
-                    <option value="five">5</option>
-                    <option value="six">6</option>
-                </select>
-                <label>Indoor/Outdoor Indicator:</label>
-                <select className="dropdown"
-                    value={inOut}
-                    onChange={(e) => setInOut(e.target.value)}
-                >
-                    <option value="notset">-</option>
-                    <option value="indoor">Primarily Indoor</option>
-                    <option value="outdoor">Primarily Outdoor</option>
-                    <option value="equal">Equal Parts</option>
-                </select>
-                <label>Planned Activies:</label>
-                <select className="dropdown"
-                    value={plannedActivities}
-                    onChange={(e) => setPlannedActivities(e.target.value)}
-                >
-                    <option value="notset">-</option>
-                    <option value="one">1</option>
-                    <option value="two">2</option>
-                    <option value="three">3</option>
-                    <option value="four">4</option>
-                    <option value="five">5</option>
-                    <option value="six">6</option>
-                </select>
-                { !isPending && <button>Calculate</button>}
+                <br></br>
+                <br></br>
+                <label htmlFor="dropdown">Skin Type:</label>
+                <Select 
+                    className="form-fields"
+                    options={skinTypeFormOptions}
+                    value={skinTypeFormOptions.value}
+                    onChange={(skinTypeFormOptions) => setSkinType(skinTypeFormOptions.value)}
+                    components={{SingleValue: ImgSingleValue, Option: ImgOption }}
+                />
+                <br></br>
+                <br></br>
+                <label htmlFor="dropdown">Location during sun hours:</label>
+                <Select 
+                    className="form-fields"
+                    options={indoorOutdoorFormOptions}
+                    value={indoorOutdoorFormOptions.value}
+                    onChange={(indoorOutdoorFormOptions) => setInOut(indoorOutdoorFormOptions.value)}
+                    isSearchable={false}
+                    components={{SingleValue: ImgSingleValue, Option: ImgOption }}
+                />
+                <br></br>
+                <br></br>
+                <label htmlFor="dropdown">Clothing choice for the day:</label>
+                <Select 
+                    className="form-fields"
+                    options={clothingChoiceFormOptions}
+                    value={clothingChoiceFormOptions.value}
+                    onChange={(clothingChoiceFormOptions) => setClothingChoice(clothingChoiceFormOptions.value)}
+                    components={{SingleValue: ImgSingleValue, Option: ImgOption }}
+                    isMulti
+                />
+                <br></br>
+                <br></br>
+                <label htmlFor="dropdown">Planned activities for the day:</label>
+                <Select 
+                    className="form-fields"
+                    options={plannedActivitiesFormOptions}
+                    value={plannedActivitiesFormOptions.value}
+                    onChange={(plannedActivitiesFormOptions) => setPlannedActivities(plannedActivitiesFormOptions.value)}
+                    components={{SingleValue: ImgSingleValue, Option: ImgOption }}
+                    isMulti
+                />
+                { !isPending && <button disabled={!setIsDropdownValid}>Calculate</button>}
                 { isPending && <button disabled>Calculating...</button>}
                 { result && (
                     <div>

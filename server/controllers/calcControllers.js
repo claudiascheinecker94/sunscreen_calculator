@@ -6,25 +6,24 @@ const handleErrors = (err) => {
     console.log(err.message, err.code);
 }
 
-module.exports.calculate_get = (req, res) => {
-    res.render('calculate');
-}
-
 module.exports.calculate_post = async (req, res) => {
 
     //save form data
     const { 
         height, 
         weight,
+        age,
+        skinType
         clothingChoice,
         indoorOutdoorSelection,
         plannedActivities,
      } = req.body;  
+
+     console.log(req.body);
      
     //get external data
     const geolocationUrl = 'http://ip-api.com/json/?fields=61439';
     const address = await fetchExternalData(geolocationUrl);
-    console.log(typeof address.city);
     const city = address.city.toString();
 
     const weatherUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/today?unitGroup=metric&key=KZ8RMBZBZYDY64J2JVX4JTRA4&include=days&elements=temp,cloudcover,uvindex,sunrise,sunset`
@@ -32,6 +31,10 @@ module.exports.calculate_post = async (req, res) => {
     console.log(currWeather);
 
     //calculate sunscreen amount
+    //amount takes in surface are exposed, which includes
+    //** height
+    //** weight
+    //** clothing Choice
     const minAmount = 2;
     
     const surfaceCalc = (weight, height, clothingChoice) => {

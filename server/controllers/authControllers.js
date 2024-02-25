@@ -43,6 +43,24 @@ const createToken = (id) => { //id is payload
     });
 }
 
+module.exports.status_get = (req, res) => {
+    const token = req.cookies.jwt;
+
+    if(token){
+        jwt.verify(token, 'claudia secret', async (err, decodedToken) => {
+            if(err){
+                console.log(err.message);
+                res.json({ user: null });
+            } else {
+                let user = await User.findById(decodedToken.id);
+                res.json({ user });
+            }
+        })
+    } else {
+        res.json({ user: null});
+    }
+}
+
 module.exports.signup_get = (req, res) => {
     res.render('signup');
 }
@@ -89,24 +107,6 @@ module.exports.accountsetup_post = async (req, res) => {
         res.status(201).json({ detail : detail.userId });
     } catch (e) {
         console.log(e);
-    }
-}
-
-module.exports.status_get = (req, res) => {
-    const token = req.cookies.jwt;
-
-    if(token){
-        jwt.verify(token, 'claudia secret', async (err, decodedToken) => {
-            if(err){
-                console.log(err.message);
-                res.json({ user: null });
-            } else {
-                let user = await User.findById(decodedToken.id);
-                res.json({ user });
-            }
-        })
-    } else {
-        res.json({ user: null});
     }
 }
 
