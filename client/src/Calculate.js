@@ -10,11 +10,11 @@ const Calculate = () => {
     const [weight, setWeight] = useState('');
     const [age, setAge] = useState('');
     const [skinType, setSkinType] = useState('');
-    const [clothingChoice, setClothingChoice] = useState('');
+    const [clothingChoice, setClothingChoice] = useState([]);
     const [inOut, setInOut] = useState('');
-    const [plannedActivities, setPlannedActivities] = useState('');
+    const [plannedActivities, setPlannedActivities] = useState([]);
 
-    //provide image dropdown options for skinType, plannedActiviedies and inOut
+    //provide image dropdown options for skinType, plannedActivities and inOut
     const { SingleValue, Option } = components;
 
     //https://stackoverflow.com/questions/45940726/populate-react-select-with-image
@@ -52,13 +52,14 @@ const Calculate = () => {
 
     const clothingChoiceFormOptions = 
     [
-          {value: '1', label: 'Long Trousers/Skirts', image: 'Long_Bottoms.png'},
-          {value: '2', label: 'Short Trousers/Skirts', image: 'Short_Bottoms.png'},
-          {value: '3', label: 'Long Sleeves', image: 'Long_Sleeves.png'},
-          {value: '4', label: 'Short Sleeves', image: 'Short_Sleeves.png'},
-          {value: '5', label: 'Tank Top', image: 'Extra_Short_Sleeves.png'},
-          {value: '6', label: 'Long Dress', image: 'Long_Dress.png'},
-          {value: '7', label: 'Short Dress', image: 'Short_Dress.png'},
+          
+          {value: '3', label: 'Short Trousers/Skirts', image: 'Short_Bottoms.png'},
+          {value: '2', label: 'Short Sleeves', image: 'Short_Sleeves.png'},
+          {value: '1', label: 'Tank Top', image: 'Extra_Short_Sleeves.png'},
+          {value: '4', label: 'Short Dress', image: 'Short_Dress.png'},
+          {value: '11', label: 'Long Trousers/Skirts', image: 'Long_Bottoms.png'},
+          {value: '15', label: 'Long Sleeves', image: 'Long_Sleeves.png'},
+          {value: '10', label: 'Long Dress', image: 'Long_Dress.png'},   
     ];
 
     const plannedActivitiesFormOptions = 
@@ -69,15 +70,6 @@ const Calculate = () => {
           {value: 'sweat+sun', label: 'Outdoor Exercise', image: 'outdoor_sports.webp'},
     ];
 
-    //trying to make dropdown options to be required
-    const [isDropdownValid, setIsDropdownValid] = useState(false);
-
-    // useEffect(() => {
-    //     if(params){
-    //         setIsDropdownValid = true;
-    //     }
-    //   }, [params]);
-
     const [isPending, setIsPending] = useState(false);
     const [result, setResult] = useState('');
     const navigate = useNavigate();
@@ -87,6 +79,7 @@ const Calculate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const params = { height, weight, skinType, clothingChoice, inOut, plannedActivities };
+
         console.log(params);
 
         setIsPending(true);
@@ -151,6 +144,7 @@ const Calculate = () => {
                     value={skinTypeFormOptions.value}
                     onChange={(skinTypeFormOptions) => setSkinType(skinTypeFormOptions.value)}
                     components={{SingleValue: ImgSingleValue, Option: ImgOption }}
+                    required
                 />
                 <br></br>
                 <br></br>
@@ -162,6 +156,7 @@ const Calculate = () => {
                     onChange={(indoorOutdoorFormOptions) => setInOut(indoorOutdoorFormOptions.value)}
                     isSearchable={false}
                     components={{SingleValue: ImgSingleValue, Option: ImgOption }}
+                    required
                 />
                 <br></br>
                 <br></br>
@@ -170,9 +165,10 @@ const Calculate = () => {
                     className="form-fields"
                     options={clothingChoiceFormOptions}
                     value={clothingChoiceFormOptions.value}
-                    onChange={(clothingChoiceFormOptions) => setClothingChoice(clothingChoiceFormOptions.value)}
+                    onChange={(clothingChoiceFormOptions) => setClothingChoice([...clothingChoiceFormOptions])}
                     components={{SingleValue: ImgSingleValue, Option: ImgOption }}
                     isMulti
+                    required
                 />
                 <br></br>
                 <br></br>
@@ -181,11 +177,12 @@ const Calculate = () => {
                     className="form-fields"
                     options={plannedActivitiesFormOptions}
                     value={plannedActivitiesFormOptions.value}
-                    onChange={(plannedActivitiesFormOptions) => setPlannedActivities(plannedActivitiesFormOptions.value)}
+                    onChange={(plannedActivitiesFormOptions) => setPlannedActivities([...plannedActivitiesFormOptions])}
                     components={{SingleValue: ImgSingleValue, Option: ImgOption }}
                     isMulti
+                    required
                 />
-                { !isPending && <button disabled={!setIsDropdownValid}>Calculate</button>}
+                { !isPending && <button>Calculate</button>}
                 { isPending && <button disabled>Calculating...</button>}
                 { result && (
                     <div>

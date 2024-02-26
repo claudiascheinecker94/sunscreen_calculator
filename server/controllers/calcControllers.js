@@ -13,14 +13,42 @@ module.exports.calculate_post = async (req, res) => {
         height, 
         weight,
         age,
-        skinType
+        skinType,
         clothingChoice,
-        indoorOutdoorSelection,
-        plannedActivities,
+        inOut,
+        plannedActivities
      } = req.body;  
 
      console.log(req.body);
-     
+
+    //calculate sunscreen amount
+    //amount takes in surface are exposed, which includes
+    //** height
+    //** weight
+    //** clothing Choice
+    const minAmount = 2; //hard coded mg/cm2
+    
+    const surfaceCalc = (weight, height, clothingChoice) => {
+        let bareSurface = weight * height;
+        let coveredSurface = 0;
+
+        for(i=0; i<req.body.clothingChoice.length; i++){
+            var clothValue = Number(req.body.clothingChoice[i].value);
+            coveredSurface += clothValue;
+        }
+       
+        if(coveredSurface <= 4){
+            exposedSurface = bareSurface * 0.9;
+        } else if (coveredSurface <= 10){
+            exposedSurface = bareSurface * 0.6;
+        } else if (coveredSurface => 15){
+            exposedSurface = bareSurface * 0.3;
+        } else {
+            console.log ('something went wrong');
+        }
+        return exposedSurface;
+    }
+    
     //get external data
     const geolocationUrl = 'http://ip-api.com/json/?fields=61439';
     const address = await fetchExternalData(geolocationUrl);
@@ -30,37 +58,22 @@ module.exports.calculate_post = async (req, res) => {
     const currWeather = await fetchExternalData(weatherUrl);
     console.log(currWeather);
 
-    //calculate sunscreen amount
-    //amount takes in surface are exposed, which includes
-    //** height
-    //** weight
-    //** clothing Choice
-    const minAmount = 2;
-    
-    const surfaceCalc = (weight, height, clothingChoice) => {
-        let bareSurface = weight * height;
-        let exposedSurface = 0;
-       
-        if(clothingChoice === 'minCover'){
-            exposedSurface = bareSurface * 0.9;
-        } else if (clothingChoice === 'medCover'){
-            exposedSurface = bareSurface * 0.6;
-        } else if (clothingChoice === 'maxCover'){
-            exposedSurface = bareSurface * 0.3;
-        } else {
-            console.log ('something went wrong');
-        }
-        return exposedSurface;
-    }
-    
-    const reapplicationRate = (indoorOutdoorSelection, plannedActivities, location) => {
+
+    //calculate reapplication rate
+    //takes into consideration external factors, physical activity and physical location
+    //** inOut
+    //** planned Activities
+    //** uv index
+    //** cloud coverage
+    //** sun hours
+    const reapplicationRate = (inOut, plannedActivities, location) => {
         let minHours = 4;
         
-        if(plannedActivities && indoorOutdoorSelection === 'mostlyOutside'){
+        if(inOut === '1'){
             minHours = 0.66;
-        } else if (plannedActivities && indoorOutdoorSelection === 'mostlyInside' || indoorOutdoorSelection === 'mostlyOutside'){
+        } else if (inOut === '2' || plannedActivities === '2'){
             minHours = 1;
-        } else if (indoorOutdoorSelection === 'half/half' ){
+        } else if (inOut === '3' ){
             minHours = 2;
         } else {
             minHours;
@@ -70,9 +83,9 @@ module.exports.calculate_post = async (req, res) => {
 
 
     try {
-        const coveredSurface = surfaceCalc(weight,height,clothingChoice);
-        const sunscreenResult = coveredSurface * minAmount;
-        const rateResult = reapplicationRate(indoorOutdoorSelection, plannedActivities)
+        const surface = surfaceCalc(weight,height,clothingChoice);
+        const sunscreenResult = surface * minAmount;
+        const rateResult = reapplicationRate(inOut, plannedActivities)
         //console.log(coveredSurface);
         //console.log(minAmount);
         console.log(sunscreenResult);
