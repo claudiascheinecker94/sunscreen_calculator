@@ -1,17 +1,20 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Select from 'react-select';
 import { components } from "react-select";
 
 const Calculate = () => {
 
     //set form answers
-    const [height, setHeight] = useState('');
-    const [weight, setWeight] = useState('');
-    const [age, setAge] = useState('');
-    const [skinType, setSkinType] = useState('');
+    const { id } = useParams();
+    const [height, setHeight] = useState();
+    const [weight, setWeight] = useState();
+    const [age, setAge] = useState();
+
+    //{ id && setHeight(height)}
+    const [skinType, setSkinType] = useState();
     const [clothingChoice, setClothingChoice] = useState([]);
-    const [inOut, setInOut] = useState('');
+    const [inOut, setInOut] = useState();
     const [plannedActivities, setPlannedActivities] = useState([]);
 
     //provide image dropdown options for skinType, plannedActivities and inOut
@@ -71,14 +74,13 @@ const Calculate = () => {
     ];
 
     const [isPending, setIsPending] = useState(false);
-    const [result, setResult] = useState('');
-    const navigate = useNavigate();
+    const [result, setResult] = useState();
 
 
     //post form answers
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const params = { height, weight, skinType, clothingChoice, inOut, plannedActivities };
+        const params = { id, height, weight, skinType, clothingChoice, inOut, plannedActivities };
 
         console.log(params);
 
@@ -95,7 +97,6 @@ const Calculate = () => {
             setResult(result);
             console.log(result);
             setIsPending(false);
-            //navigate('/');
     
         } catch (error) {
             console.log(error.message);
@@ -105,93 +106,97 @@ const Calculate = () => {
     return ( 
         <div className="create">
             <h2>Daily Sunscreen Need</h2>
-            <form onSubmit={handleSubmit}>
+            {!result && (
+                <form onSubmit={handleSubmit}>
                 <br></br>
-                <label>Height (in cm):</label>
-                <input
-                    className="form-fields"
-                    id="number" 
-                    required
-                    value={height}
-                    onChange={(e) => setHeight(e.target.value)}
-                />
-                <br></br>
-                <br></br>
-                <label>Weight (in kg):</label>
-                <input
-                    className="form-fields"
-                    type="number"
-                    required
-                    value={weight}
-                    onChange={(e) => setWeight(e.target.value)}
-                />
-                <br></br>
-                <br></br>
-                <label>Age (in years):</label>
-                <input
-                    className="form-fields"
-                    type="number" 
-                    required
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
-                />
-                <br></br>
-                <br></br>
-                <label htmlFor="dropdown">Skin Type:</label>
-                <Select 
-                    className="form-fields"
-                    options={skinTypeFormOptions}
-                    value={skinTypeFormOptions.value}
-                    onChange={(skinTypeFormOptions) => setSkinType(skinTypeFormOptions.value)}
-                    components={{SingleValue: ImgSingleValue, Option: ImgOption }}
-                    required
-                />
-                <br></br>
-                <br></br>
-                <label htmlFor="dropdown">Location during sun hours:</label>
-                <Select 
-                    className="form-fields"
-                    options={indoorOutdoorFormOptions}
-                    value={indoorOutdoorFormOptions.value}
-                    onChange={(indoorOutdoorFormOptions) => setInOut(indoorOutdoorFormOptions.value)}
-                    isSearchable={false}
-                    components={{SingleValue: ImgSingleValue, Option: ImgOption }}
-                    required
-                />
-                <br></br>
-                <br></br>
-                <label htmlFor="dropdown">Clothing choice for the day:</label>
-                <Select 
-                    className="form-fields"
-                    options={clothingChoiceFormOptions}
-                    value={clothingChoiceFormOptions.value}
-                    onChange={(clothingChoiceFormOptions) => setClothingChoice([...clothingChoiceFormOptions])}
-                    components={{SingleValue: ImgSingleValue, Option: ImgOption }}
-                    isMulti
-                    required
-                />
-                <br></br>
-                <br></br>
-                <label htmlFor="dropdown">Planned activities for the day:</label>
-                <Select 
-                    className="form-fields"
-                    options={plannedActivitiesFormOptions}
-                    value={plannedActivitiesFormOptions.value}
-                    onChange={(plannedActivitiesFormOptions) => setPlannedActivities([...plannedActivitiesFormOptions])}
-                    components={{SingleValue: ImgSingleValue, Option: ImgOption }}
-                    isMulti
-                    required
-                />
-                { !isPending && <button>Calculate</button>}
-                { isPending && <button disabled>Calculating...</button>}
-                { result && (
-                    <div>
-                        <p>Result:</p>
-                        <p>Reapplication Rate: { result.rateResult }</p>
-                        <p>Sunscreen Dose (in ml): { result.sunscreenResult }</p>
-                    </div>
-                )}
-            </form>
+                    {!id && (<div>
+                        <label>Height (in cm):</label>
+                        <input
+                            className="form-fields"
+                            id="number" 
+                            required
+                            value={height}
+                            onChange={(e) => setHeight(e.target.value)}
+                        />
+                    <br></br>
+                    <br></br>
+                    <label>Weight (in kg):</label>
+                    <input
+                        className="form-fields"
+                        type="number"
+                        required
+                        value={weight}
+                        onChange={(e) => setWeight(e.target.value)}
+                    />
+                    <br></br>
+                    <br></br>
+                    <label>Age (in years):</label>
+                    <input
+                        className="form-fields"
+                        type="number" 
+                        required
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                    />
+                    </div>)}
+                    <br></br>
+                    <br></br>
+                    <label htmlFor="dropdown">Skin Type:</label>
+                    <Select 
+                        className="form-fields"
+                        options={skinTypeFormOptions}
+                        value={skinTypeFormOptions.value}
+                        onChange={(skinTypeFormOptions) => setSkinType(skinTypeFormOptions.value)}
+                        components={{SingleValue: ImgSingleValue, Option: ImgOption }}
+                        required
+                    />
+                    <br></br>
+                    <br></br>
+                    <label htmlFor="dropdown">Location during sun hours:</label>
+                    <Select 
+                        className="form-fields"
+                        options={indoorOutdoorFormOptions}
+                        value={indoorOutdoorFormOptions.value}
+                        onChange={(indoorOutdoorFormOptions) => setInOut(indoorOutdoorFormOptions.value)}
+                        isSearchable={false}
+                        components={{SingleValue: ImgSingleValue, Option: ImgOption }}
+                        required
+                    />
+                    <br></br>
+                    <br></br>
+                    <label htmlFor="dropdown">Clothing choice for the day:</label>
+                    <Select 
+                        className="form-fields"
+                        options={clothingChoiceFormOptions}
+                        value={clothingChoiceFormOptions.value}
+                        onChange={(clothingChoiceFormOptions) => setClothingChoice([...clothingChoiceFormOptions])}
+                        components={{SingleValue: ImgSingleValue, Option: ImgOption }}
+                        isMulti
+                        required
+                    />
+                    <br></br>
+                    <br></br>
+                    <label htmlFor="dropdown">Planned activities for the day:</label>
+                    <Select 
+                        className="form-fields"
+                        options={plannedActivitiesFormOptions}
+                        value={plannedActivitiesFormOptions.value}
+                        onChange={(plannedActivitiesFormOptions) => setPlannedActivities([...plannedActivitiesFormOptions])}
+                        components={{SingleValue: ImgSingleValue, Option: ImgOption }}
+                        isMulti
+                    />
+                    { !isPending && <button>Calculate</button>}
+                    { isPending && <button disabled>Calculating...</button>}
+                </form>
+            )}
+            {result && (
+                <div>
+                    <p>Result:</p>
+                    <p>You should reapply sunscreen every: { result.rateResult[0] } hour(s)</p>
+                    <p>Based on the sun hours of your location you need to reapply: { result.rateResult[1] } times today</p>
+                    <p>Sunscreen Dose (in ml): { result.amount }</p>
+                </div>
+            )}
         </div>
      );
 }

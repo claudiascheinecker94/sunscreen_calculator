@@ -48,5 +48,4 @@ const useSecureRouting  = (user) => {
     }, [user, id, navigate])
 }
 
-
 export {useAuthStatus, useSecureRouting};

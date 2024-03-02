@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Calculate = () => {
+const AccountSetup = () => {
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
     const [age, setAge] = useState('');
@@ -62,4 +62,4 @@ const Calculate = () => {
      );
 }
  
-export default Calculate;
+export default AccountSetup;
