@@ -120,9 +120,9 @@ const Calculate = () => {
 
     return ( 
         <div className="create">
-            <h2>Daily Sunscreen Need</h2>
             {!result && (
                 <form onSubmit={handleSubmit}>
+                    <h2>Daily Sunscreen Need</h2>
                 <br></br>
                     <div>
                         <label>Height (in cm):</label>

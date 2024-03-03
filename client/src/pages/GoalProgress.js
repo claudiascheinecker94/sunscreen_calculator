@@ -14,12 +14,23 @@ const GoalProgress = () => {
     const cleared = useClearLocalStorage();
     console.log(cleared);
 
-    const [success, setSuccess] = useState();
+    const [success, setSuccess] = useState('');
+    const [style, setStyle] = useState('active');
+    const [button, setButton] = useState('show');
 
     useEffect(() =>{
         submitGoal();
+        if(success === 'true'){
+            setStyle('successDeactive')
+            setButton('hide')
+        } else if(success === 'false') {
+            setStyle('failureDeactive')
+            setButton('hide')
+        }
     }, [success]);
 
+    console.log(style);
+    
     //success/failure
     //if user clicks on success --> send success to db
     //if user clicks failure --> send failure to db
@@ -48,13 +59,13 @@ const GoalProgress = () => {
     
 
     return ( 
-        <div>
+        <div className={style}>
             { amount && <div><p>Result:</p>
             <p>You should reapply sunscreen every: { rateResult[0] } hour(s)</p>
             <p>Based on the sun hours of your location you need to reapply: { rateResult[1] } times today</p>
             <p>Sunscreen Dose (in ml): { amount }</p>
-            <button onClick={() => setSuccess('true')}>I did it!</button>
-            <button onClick={() => setSuccess('false')}>Oh no I forgot!</button>
+            <button className={button} onClick={() => setSuccess('true')}>I did it!</button>
+            <button className={button} onClick={() => setSuccess('false')}>Oh no I forgot!</button>
             </div>}
             { !amount && <div>
                 <p>There is currenly no calculation.</p>
