@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Select from 'react-select';
 import { components } from "react-select";
+import { useLocalStorage } from '../context/LocalStorageContext';
 
 const Calculate = () => {
 
@@ -75,6 +76,9 @@ const Calculate = () => {
 
     const [isPending, setIsPending] = useState(false);
     const [result, setResult] = useState();
+    const navigate = useNavigate();
+    const { setLocalStorageData } = useLocalStorage();
+
 
 
     //post form answers
@@ -97,6 +101,17 @@ const Calculate = () => {
             setResult(result);
             console.log(result);
             setIsPending(false);
+            
+            if(id){
+                const localStorageData = {
+                    amount: result.amount,
+                    rateResult:result.rateResult,
+                    timestamp: new Date().getTime()
+                }
+                setLocalStorageData(localStorageData);
+                navigate(`/userpage/${id}/goals`)
+            }
+            
     
         } catch (error) {
             console.log(error.message);
@@ -109,7 +124,7 @@ const Calculate = () => {
             {!result && (
                 <form onSubmit={handleSubmit}>
                 <br></br>
-                    {!id && (<div>
+                    <div>
                         <label>Height (in cm):</label>
                         <input
                             className="form-fields"
@@ -138,7 +153,7 @@ const Calculate = () => {
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
                     />
-                    </div>)}
+                    </div>
                     <br></br>
                     <br></br>
                     <label htmlFor="dropdown">Skin Type:</label>

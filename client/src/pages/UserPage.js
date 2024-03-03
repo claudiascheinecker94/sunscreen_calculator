@@ -1,7 +1,7 @@
 import { set } from 'mongoose';
 import { useState, useEffect } from 'react';
 import {Route, Link, Routes, useParams} from 'react-router-dom';
-import {useAuthStatus, useSecureRouting}  from './Helper';
+import {useAuthStatus, useSecureRouting}  from '../helpers/Helper';
 import Calculate from './Calculate';
 
 const UserPage = () => {

@@ -57,8 +57,9 @@ module.exports.calculate_post = async (req, res) => {
     }
     
     //get external data
-    const geolocationUrl = 'http://ip-api.com/json/?fields=61439';
+    const geolocationUrl = 'http://ip-api.com/json/?fields=status,message,country,city,offset,query';
     const address = await fetchExternalData(geolocationUrl);
+    const offset = address.offset.toString();
     const city = address.city.toString();
 
     const weatherUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/today?unitGroup=metric&key=KZ8RMBZBZYDY64J2JVX4JTRA4&include=days&elements=temp,cloudcover,uvindex,sunrise,sunset`

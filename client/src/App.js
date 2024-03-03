@@ -1,17 +1,16 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, useParams } from  "react-router-dom";
-import Navbar from './Navbar';
-import Home from './Home';
-import Login from './Login';
-import Logout from './Logout';
-import Signup from './Signup';
-import AccountSetup from './AccountSetup';
-import UserPage from './UserPage';
-import Calculate from './Calculate';
-import GoalProgress from './GoalProgress';
-import NewsRecommendations from './NewsRecommendations';
-import NotFound from './NotFound';
-import authStatus from './Helper';
+import Navbar from './pages/Navbar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Logout from './pages/Logout';
+import Signup from './pages/Signup';
+import AccountSetup from './pages/AccountSetup';
+import UserPage from './pages/UserPage';
+import Calculate from './pages/Calculate';
+import GoalProgress from './pages/GoalProgress';
+import NewsRecommendations from './pages/NewsRecommendations';
+import NotFound from './pages/NotFound';
 
 function App() {
 

@@ -2,6 +2,7 @@ const User = require('../models/Users');
 const jwt = require('jsonwebtoken');
 const { checkUser } = require('../middleware/authMiddleware');
 const Detail = require('../models/Details');
+const Goal = require('../models/Goals');
 
 module.exports.userpage_get = async (req, res) => {
 
@@ -35,6 +36,23 @@ module.exports.userpage_put = async (req, res) => {
         console.log(err);
         res.status(400).send('not updated');
     }       
+}
+
+
+module.exports.goals_post = async (req, res) => {
+    const { success } = req.body;
+    console.log("Server received" + req.body)
+    console.log("Server received" + success)
+
+    try {
+        const userId = req.params.id;
+        const marked_complete = new Date();
+        const goal = await Goal.create({ userId, marked_complete, success })
+        res.status(200);
+    }
+    catch (err){
+        res.status(400).json({ err });
+    }
 }
 
 module.exports.news_get = (req, res) => {

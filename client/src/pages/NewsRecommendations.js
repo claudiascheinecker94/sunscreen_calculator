@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import {useAuthStatus, useSecureRouting} from './Helper';
+import {useAuthStatus, useSecureRouting}  from '../helpers/Helper';
 
-const GoalProgress = () => {
+const NewsRecommendations = () => {
 
     const { user } = useAuthStatus();
     useSecureRouting(user);
-
-
 
     return ( 
         <div>
@@ -15,4 +13,4 @@ const GoalProgress = () => {
      );
 }
  
-export default GoalProgress;
+export default NewsRecommendations;

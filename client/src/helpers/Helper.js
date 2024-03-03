@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
+import { useLocalStorage } from '../context/LocalStorageContext';
 
 const useAuthStatus = () => {
 
@@ -48,4 +49,29 @@ const useSecureRouting  = (user) => {
     }, [user, id, navigate])
 }
 
-export {useAuthStatus, useSecureRouting};
+const useClearLocalStorage = () => {
+
+    const { localStorageData } = useLocalStorage();
+    var cleared = false;
+
+    useEffect(() => {
+
+        if(localStorageData){
+            console.log("Local Storage Time " + localStorageData.timestamp)
+
+            var currentTime = new Date().getTime();
+            console.log("Current Time " + currentTime)
+            var timeDifference = currentTime - localStorageData.timestamp;
+            console.log("Time Difference " + timeDifference);
+
+            if(timeDifference >= 1000 * 60 * 60 * 24) {
+                localStorage.clear();
+                cleared = true;
+            } 
+        }
+    },[])
+    
+    return cleared; 
+}
+
+export {useAuthStatus, useSecureRouting, useClearLocalStorage};
