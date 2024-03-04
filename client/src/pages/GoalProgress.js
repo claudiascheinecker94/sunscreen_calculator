@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {useAuthStatus, useSecureRouting, useClearLocalStorage} from '../helpers/Helper';
 import { useLocalStorage } from '../context/LocalStorageContext';
+import  Heatmap from '../components/chart';
+import HeatmapGrid from 'react-heatmap-grid';
 
 const GoalProgress = () => {
     const { id } = useParams();
@@ -10,13 +12,15 @@ const GoalProgress = () => {
 
     const { localStorageData } = useLocalStorage();
     const { amount, rateResult } = localStorageData;   
-
     const cleared = useClearLocalStorage();
     console.log(cleared);
-
     const [success, setSuccess] = useState('');
     const [style, setStyle] = useState('active');
     const [button, setButton] = useState('show');
+
+    if(cleared){
+        setSuccess('false');
+    }
 
     useEffect(() =>{
         submitGoal();
@@ -56,7 +60,6 @@ const GoalProgress = () => {
             console.log(error.message);
         }
     }
-    
 
     return ( 
         <div className={style}>
@@ -70,6 +73,10 @@ const GoalProgress = () => {
             { !amount && <div>
                 <p>There is currenly no calculation.</p>
             </div>}
+            <div>
+                <Heatmap />
+            </div>
+            
         </div>
      );
 }

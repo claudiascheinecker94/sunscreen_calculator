@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { checkUser } = require('../middleware/authMiddleware');
 const Detail = require('../models/Details');
 const Goal = require('../models/Goals');
+const Reading = require('../models/Readings');
 
 module.exports.userpage_get = async (req, res) => {
 
@@ -38,11 +39,22 @@ module.exports.userpage_put = async (req, res) => {
     }       
 }
 
+module.exports.goals_get = async (req,res) => {
+    try {
+        let userId = req.params.id; //detailId = userId
+        let totalGoalProgress = await Goal.find({userId});
+        //let totalCalculations = await Reading.count({userId: userId});
+
+        console.log("Progress:" + totalGoalProgress);
+        //console.log("Calculations:" + totalCalculations);
+        res.status(200).json({totalGoalProgress});
+    } catch(err) {
+        res.status(400).json(err);
+    }       
+}
 
 module.exports.goals_post = async (req, res) => {
     const { success } = req.body;
-    console.log("Server received" + req.body)
-    console.log("Server received" + success)
 
     try {
         const userId = req.params.id;
