@@ -47,7 +47,7 @@ module.exports.goals_get = async (req,res) => {
 
         console.log("Progress:" + totalGoalProgress);
         //console.log("Calculations:" + totalCalculations);
-        res.status(200).json({totalGoalProgress});
+        res.status(200).json(totalGoalProgress);
     } catch(err) {
         res.status(400).json(err);
     }       

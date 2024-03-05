@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {useAuthStatus, useSecureRouting, useClearLocalStorage} from '../helpers/Helper';
 import { useLocalStorage } from '../context/LocalStorageContext';
-import  Heatmap from '../components/chart';
+import  Heatmap from '../components/HeatmapComponent';
 import HeatmapGrid from 'react-heatmap-grid';
 
 const GoalProgress = () => {
@@ -29,6 +29,7 @@ const GoalProgress = () => {
             setButton('hide')
         } else if(success === 'false') {
             setStyle('failureDeactive')
+            localStorageData = style;
             setButton('hide')
         }
     }, [success]);
@@ -62,8 +63,8 @@ const GoalProgress = () => {
     }
 
     return ( 
-        <div className={style}>
-            { amount && <div><p>Result:</p>
+        <div>
+            { amount && <div className={style}><p>Result:</p>
             <p>You should reapply sunscreen every: { rateResult[0] } hour(s)</p>
             <p>Based on the sun hours of your location you need to reapply: { rateResult[1] } times today</p>
             <p>Sunscreen Dose (in ml): { amount }</p>
@@ -73,10 +74,13 @@ const GoalProgress = () => {
             { !amount && <div>
                 <p>There is currenly no calculation.</p>
             </div>}
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
             <div>
                 <Heatmap />
             </div>
-            
         </div>
      );
 }
