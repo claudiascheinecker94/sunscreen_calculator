@@ -69,7 +69,7 @@ const useClearLocalStorage = () => {
                 cleared = true;
             } 
         }
-    },[])
+    })
     
     return cleared; 
 }

@@ -3,38 +3,62 @@ import { useParams } from 'react-router-dom';
 import {useAuthStatus, useSecureRouting, useClearLocalStorage} from '../helpers/Helper';
 import { useLocalStorage } from '../context/LocalStorageContext';
 import  Heatmap from '../components/HeatmapComponent';
-import HeatmapGrid from 'react-heatmap-grid';
+import LineChartComponent from '../components/LineChartComponent';
 
 const GoalProgress = () => {
     const { id } = useParams();
     const { user } = useAuthStatus();
     useSecureRouting(user);
 
-    const { localStorageData } = useLocalStorage();
-    const { amount, rateResult } = localStorageData;   
-    const cleared = useClearLocalStorage();
-    console.log(cleared);
-    const [success, setSuccess] = useState('');
-    const [style, setStyle] = useState('active');
-    const [button, setButton] = useState('show');
+    const { localStorageData, setLocalStorageData} = useLocalStorage();
+    const { amount, rateResult, timestamp} = localStorageData;  
 
-    if(cleared){
-        setSuccess('false');
-    }
+    console.log(localStorageData); 
+    useClearLocalStorage();
+    const [style, setStyle] = useState();
+    const [button, setButton] = useState();
+    const [success, setSuccess] = useState();
 
+
+    //if there is no style set && success is true --> set style
+    //if there is a style set && success is true --> keep style
+    //if there is no style set && success if false --> set style
+    //if there is a style set && success is false --> Keep style
     useEffect(() =>{
         submitGoal();
-        if(success === 'true'){
+        if(!localStorageData.style && success === 'true'){
             setStyle('successDeactive')
             setButton('hide')
-        } else if(success === 'false') {
+            const styleLocalStorageData = {
+                ...localStorageData,
+                style: 'successDeactive',
+                button: 'hide',
+                rateResult,
+                amount,
+                timestamp
+            };
+            setLocalStorageData(styleLocalStorageData);
+        } else if(!localStorageData.style && success === 'false') {
             setStyle('failureDeactive')
-            localStorageData = style;
             setButton('hide')
+            const styleLocalStorageData = {
+                ...localStorageData,
+                style: 'failureDeactive',
+                button: 'hide',
+                rateResult,
+                amount,
+                timestamp
+            };
+            setLocalStorageData(styleLocalStorageData);
         }
     }, [success]);
 
-    console.log(style);
+    useEffect(() =>{
+        if(localStorageData.style){
+            setStyle(localStorageData.style)
+            setButton(localStorageData.button)
+        }
+    }, []);
     
     //success/failure
     //if user clicks on success --> send success to db
@@ -80,6 +104,7 @@ const GoalProgress = () => {
             <br></br>
             <div>
                 <Heatmap />
+                <LineChartComponent />
             </div>
         </div>
      );

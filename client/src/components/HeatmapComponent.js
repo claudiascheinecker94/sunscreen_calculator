@@ -45,22 +45,23 @@ const Heatmap = () => {
             throw new Error(`HTTP error! Status: ${response.status}`);
         } else {
             const results = await response.json();
+            console.log(results.totalGoalProgress[0].success)
             
-            for(var i=0; i< results.length; i++){
-                if(results[i].success === false){
+            for(var i=0; i< results.totalGoalProgress.length; i++){
+                if(results.totalGoalProgress[i].success === false){
                     successIndicator = 0
-                } else if (results[i].success === true) {
+                } else if (results.totalGoalProgress[i].success === true) {
                     successIndicator = 1
                 }
                 arrSuccess.push(successIndicator)
-                const month = results[i].marked_complete.substring(5,7)
-                const day = results[i].marked_complete.substring(8,10)
+                const month = results.totalGoalProgress[i].marked_complete.substring(5,7)
+                const day = results.totalGoalProgress[i].marked_complete.substring(8,10)
                 arrDate.push([month, day]);
              }
         }
 
-        console.log(arrDate);
-        console.log(arrSuccess);
+        //console.log(arrDate);
+        //console.log(arrSuccess);
 
         arrDate.forEach(([month, day], i) => {
             successIndicator = arrSuccess[i]

@@ -41,17 +41,27 @@ module.exports.userpage_put = async (req, res) => {
 
 module.exports.goals_get = async (req,res) => {
     try {
+        console.log("Receiving request");
         let userId = req.params.id; //detailId = userId
         let totalGoalProgress = await Goal.find({userId});
-        //let totalCalculations = await Reading.count({userId: userId});
-
-        console.log("Progress:" + totalGoalProgress);
+        let totalCalculations = await Reading.find({userId});
         //console.log("Calculations:" + totalCalculations);
-        res.status(200).json(totalGoalProgress);
+        res.status(200).json({totalGoalProgress, totalCalculations});
     } catch(err) {
         res.status(400).json(err);
     }       
 }
+
+// module.exports.readings_get = async (req, res) => {
+//     try {
+//         let userId = req.params.id; //detailId = userId
+//         let totalCalculations = await Reading.count({userId: userId});
+//         console.log("Calculations:" + totalCalculations);
+//         res.status(200).json(totalCalculations);
+//     } catch(err) {
+//         res.status(400).json(err);
+//     }      
+// }
 
 module.exports.goals_post = async (req, res) => {
     const { success } = req.body;
