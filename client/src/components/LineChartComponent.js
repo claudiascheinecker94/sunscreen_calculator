@@ -15,25 +15,28 @@ import {
 // Sample chart data
 
 const annualData = [
-    {name: "Jan" ,reapplication: 11},
-    {name: "Feb" ,reapplication: 15},
-    {name: "Mar" ,reapplication: 5},
-    {name: "Apr" ,reapplication: 10},
-    {name: "May" ,reapplication: 9},
-    {name: "Jun" ,reapplication: 9},
-    {name: "Jul" ,reapplication: 9},
-    {name: "Aug" ,reapplication: 9},
-    {name: "Sep" ,reapplication: 9},
-    {name: "Oct" ,reapplication: 9},
-    {name: "Nov" ,reapplication: 10},
-    {name: "Dec" ,reapplication: 9},
+    {name: "Jan" ,reapplication: 0, hourInterval: 0},
+    {name: "Feb" ,reapplication: 0, hourInterval: 0},
+    {name: "Mar" ,reapplication: 0, hourInterval: 0},
+    {name: "Apr" ,reapplication: 0, hourInterval: 0},
+    {name: "May" ,reapplication: 0, hourInterval: 0},
+    {name: "Jun" ,reapplication: 0, hourInterval: 0},
+    {name: "Jul" ,reapplication: 0, hourInterval: 0},
+    {name: "Aug" ,reapplication: 0, hourInterval: 0},
+    {name: "Sep" ,reapplication: 0, hourInterval: 0},
+    {name: "Oct" ,reapplication: 0, hourInterval: 0},
+    {name: "Nov" ,reapplication: 0, hourInterval: 0},
+    {name: "Dec" ,reapplication: 0, hourInterval: 0},
 ];
 
 const LineChartComponent = () => {
-    const [readingResults, setReadingResults] = useState([]);
+    const [reapplications, setReapplications] = useState([]);
+    const [amount, setAmount] = useState([]);
     const { id } = useParams();
-    const jan = 0;
-    const feb = 0;
+    var readingCount = [0,0,0,0,0,0,0,0,0,0,0,0];
+    var sumHourInterval = [0,0,0,0,0,0,0,0,0,0,0,0];
+    var sumReapplications = [0,0,0,0,0,0,0,0,0,0,0,0];
+    var sumAmount = 0;
 
     useEffect(() => {
         const fetchData = async() => {
@@ -44,49 +47,100 @@ const LineChartComponent = () => {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             } else {
                 const results = await response.json();
-                console.log(results.totalCalculations)
+                //console.log(results.totalCalculations); 
                 
-            }
-            
-            // for(var i=0; i< results.totalCalculations.length; i++){
-            //     var month = results.totalGoalProgress[i].date.substring(5,7);
-            //      
-            //     switch(month) {
-                // case '01':
-                //     jan += results.totalGoalProgress[i].reapplicationPerDay;
-                //     break;
-                //   case '02':
-                //     feb += results.totalGoalProgress[i].reapplicationPerDay;
-                //     break;
-                //   default:
-                //     console.log("error");
-                // }
-            //     if(results.totalGoalProgress[i].success === false){
-            //         successIndicator = 0
-            //     } else if (results.totalGoalProgress[i].success === true) {
-            //         successIndicator = 1
-            //     }
-            //     arrSuccess.push(successIndicator)
+                for(var i=0; i< results.totalCalculations.length; i++){
+                    var month = results.totalCalculations[i].date.substring(5,7);
+                    var numReapplications = results.totalCalculations[i].reapplicationPerDay;
+                    var hourInterval = results.totalCalculations[i].reapplicationRate;
+                    var amount = results.totalCalculations[i].amount;
+                     
+                    switch(month) {
+                    case '01':
+                        readingCount[0]++;
+                        sumHourInterval[0] = hourInterval;
+                        sumReapplications[0] += numReapplications;
+                        break;
+                      case '02':
+                        readingCount[1]++;
+                        sumHourInterval[1] += hourInterval;
+                        sumReapplications[1] += numReapplications;
+                        break;
+                      case '03':
+                        readingCount[2]++;
+                        sumHourInterval[2] += hourInterval;
+                        sumReapplications[2] += numReapplications;
+                        break;
+                      case '04':
+                        readingCount[3]++;
+                        sumHourInterval[3] += hourInterval;
+                        sumReapplications[3] += numReapplications;
+                        break;
+                      case '05':
+                        readingCount[4]++;
+                        sumHourInterval[4] += hourInterval;
+                        sumReapplications[4] += numReapplications;
+                        break;
+                      case '06':
+                        readingCount[5]++;
+                        sumHourInterval[5] += hourInterval;
+                        sumReapplications[5] += numReapplications;
+                        break;
+                      case '07':
+                        readingCount[6]++;
+                        sumHourInterval[6] += hourInterval;
+                        sumReapplications[6] += numReapplications;
+                        break;
+                      case '08':
+                        readingCount[7]++;
+                        sumHourInterval[7] += hourInterval;
+                        sumReapplications[7] += numReapplications;
+                        break;
+                      case '09':
+                        readingCount[8]++;
+                        sumHourInterval[8] += hourInterval;
+                        sumReapplications[8] += numReapplications;
+                        break;
+                      case '10':
+                        readingCount[9]++;
+                        sumHourInterval[9] += hourInterval;
+                        sumReapplications[9] += numReapplications;
+                        break;
+                      case '11':
+                        readingCount[10]++;
+                        sumHourInterval[10] += hourInterval;
+                        sumReapplications[10] += numReapplications;
+                        break;
+                      case '12':
+                        readingCount[11]++;
+                        sumHourInterval[11] += hourInterval;
+                        sumReapplications[11] += numReapplications;
+                        break;
+                      default:
+                        console.log("error");
+                    }
+
+                    sumAmount += amount;
+                }
                 
-            //     const month = results.totalGoalProgress[i].date.substring(5,7)
-            //     const day = results.totalGoalProgress[i].marked_complete.substring(8,10)
-            //     arrDate.push([month, day]);
-            //  }
-            //console.log(arrDate);
-            //console.log(arrSuccess);
-    
-            // arrDate.forEach(([month, day], i) => {
-            //     successIndicator = arrSuccess[i]
-            //     if(successIndicator = 1){
-            //         const monthIndex = month.charAt(1);
-            //         const dayIndex = day.charAt(1);
-            //         heatmapGridData[monthIndex-1][dayIndex-1] = successIndicator;
-            //     }
-            // })
-    
-            // setGoalResults(arrSuccess);
-            // setGoalDate(arrDate);
-            
+                // console.log(readingCount);
+                // console.log(sumReapplications);
+                // console.log(sumHourInterval);
+                for(var i=0; i<readingCount.length; i++){
+                    if(readingCount[i] != 0){
+                        annualData[i].reapplication = sumReapplications[i]/readingCount[i];
+                        annualData[i].hourInterval = sumHourInterval[i]/readingCount[i];
+                    } else {
+                        annualData[i].reapplication = 0;
+                        annualData[i].hourInterval = 0;
+                    }   
+                }
+                //console.log(annualData)
+                setReapplications(annualData);
+                setAmount(sumAmount);
+
+
+            }  
           } catch (error) {
               console.log(error.message);
           }
@@ -96,21 +150,34 @@ const LineChartComponent = () => {
 
     return (
       <div>
-          <h2>This shows how often you should've reapplied your sunscreen...</h2>
-            <ResponsiveContainer width="100%" aspect={2}>
-                <LineChart data={annualData}>
-                    <CartesianGrid />
-                    <XAxis dataKey="name" interval={"preserveStartEnd"} />
-                    <YAxis></YAxis>
-                    <Legend />
-                    <Tooltip />
-                    <Line
-                        dataKey="reapplication"
-                        stroke="black"
-                        activeDot={{ r: 8 }}
-                    />
-                </LineChart>
-            </ResponsiveContainer>
+            <div>
+                <h2>This shows how often you should've reapplied your sunscreen...</h2>
+                <ResponsiveContainer width="100%" aspect={2}>
+                    <LineChart data={annualData}>
+                        <CartesianGrid />
+                        <XAxis dataKey="name" interval={"preserveStartEnd"} />
+                        <YAxis></YAxis>
+                        <Legend />
+                        <Tooltip />
+                        <Line
+                            name="Avg. reapplications/day"
+                            dataKey="reapplication"
+                            stroke="black"
+                            activeDot={{ r: 8 }}
+                        />
+                        <Line
+                            name="Avg. h btw reapplications"
+                            dataKey="hourInterval"
+                            stroke="red"
+                            activeDot={{ r: 8 }}
+                        />
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>  
+            <div>
+                <h2>This total amount of sunscreen already used this year...</h2>
+                <p>{amount}</p>
+            </div>
       </div>
     );
   };

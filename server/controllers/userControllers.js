@@ -1,6 +1,7 @@
-const User = require('../models/Users');
+const Parser = require('rss-parser')
 const jwt = require('jsonwebtoken');
 const { checkUser } = require('../middleware/authMiddleware');
+const User = require('../models/Users');
 const Detail = require('../models/Details');
 const Goal = require('../models/Goals');
 const Reading = require('../models/Readings');
@@ -41,7 +42,6 @@ module.exports.userpage_put = async (req, res) => {
 
 module.exports.goals_get = async (req,res) => {
     try {
-        console.log("Receiving request");
         let userId = req.params.id; //detailId = userId
         let totalGoalProgress = await Goal.find({userId});
         let totalCalculations = await Reading.find({userId});
@@ -51,17 +51,6 @@ module.exports.goals_get = async (req,res) => {
         res.status(400).json(err);
     }       
 }
-
-// module.exports.readings_get = async (req, res) => {
-//     try {
-//         let userId = req.params.id; //detailId = userId
-//         let totalCalculations = await Reading.count({userId: userId});
-//         console.log("Calculations:" + totalCalculations);
-//         res.status(200).json(totalCalculations);
-//     } catch(err) {
-//         res.status(400).json(err);
-//     }      
-// }
 
 module.exports.goals_post = async (req, res) => {
     const { success } = req.body;
@@ -77,11 +66,28 @@ module.exports.goals_post = async (req, res) => {
     }
 }
 
-module.exports.news_get = (req, res) => {
-    res.render('news');
+module.exports.news_get = async (req, res) => {
+    
+    try {
+        const feedURL = "https://sundoctors.com.au/blog/category/sun-protection/feed/"
+        const parser = new Parser();
+        let articles = [];
 
+        const feed = await parser.parseURL(feedURL);
+            
+        feed.items.forEach(item => {
+            articles.push({item})
+        })
+
+        res.status(200).json({articles});
+    } catch (error) {
+        res.status(400).json({ error });
+        console.log(error);
+    }
+    
     //https://www.youtube.com/watch?v=cPOFttS3-CI&ab_channel=Mind-Boggling
     //https://www.isdin.com/en-US/blog/skincare/sun-protection/
     //<link rel="alternate" type="application/rss+xml" title="SunDoctors &raquo; Sun Protection Category Feed" href="https://sundoctors.com.au/blog/category/sun-protection/feed/" />
     //<link rel="alternate" type="application/rss+xml" title="The Skin Cancer Foundation &raquo; Ask the Expert: Does a High SPF Protect My Skin Better? Comments Feed" href="https://www.skincancer.org/blog/ask-the-expert-does-a-high-spf-protect-my-skin-better/feed/" />
+    //<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://thesunscreencompany.com/blog?format=rss" />
 }

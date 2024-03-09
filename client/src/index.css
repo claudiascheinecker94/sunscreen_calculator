@@ -38,15 +38,12 @@ h1, h2, h3, h4, ul, li, a, p, input, label, button, div, footer{
   text-decoration: underline; /* Add underline on hover */
 }
 
-ul {
-  list-style-type: none;
-  margin-bottom: 120px;
-  padding: 25px;
+.bloglink a {
+  text-decoration: none;
 }
 
-li {
-  display: block;
-  width: 300px;
+.bloglink a:hover {
+  text-decoration: underline;
 }
 
 .dropdown-img{
