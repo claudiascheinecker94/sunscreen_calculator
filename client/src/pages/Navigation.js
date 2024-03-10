@@ -3,8 +3,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuthStatus } from '../helpers/Helper';
 
-
-
 const Navigation = () => {
 
     const { user } = useAuthStatus();

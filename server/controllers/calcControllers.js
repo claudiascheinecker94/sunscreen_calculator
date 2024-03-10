@@ -59,7 +59,6 @@ module.exports.calculate_post = async (req, res) => {
     //get external data
     const geolocationUrl = 'http://ip-api.com/json/?fields=status,message,country,city,offset,query';
     const address = await fetchExternalData(geolocationUrl);
-    const offset = address.offset.toString();
     const city = address.city.toString();
 
     const weatherUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}/today?unitGroup=metric&key=KZ8RMBZBZYDY64J2JVX4JTRA4&include=days&elements=temp,cloudcover,uvindex,sunrise,sunset`
@@ -151,7 +150,8 @@ module.exports.calculate_post = async (req, res) => {
 
     try {
         const surface = surfaceCalc(weight,height,clothingChoice);
-        const amount = surface * minAmount;
+        //https://stackoverflow.com/questions/11832914/how-to-round-to-at-most-2-decimal-places-if-necessary
+        const amount = Math.round((surface * minAmount)*100)/100;
         const rateResult = reapplicationRate(inOut, plannedActivities, currWeather)
 
         if(id){
@@ -163,8 +163,8 @@ module.exports.calculate_post = async (req, res) => {
         }
         //console.log(amount);
         //console.log(rateResult[0]);
-        //console.log(rateResult[1]);
-        res.status(201).json({ amount : amount, rateResult : rateResult });
+        console.log(city);
+        res.status(201).json({ amount : amount, rateResult : rateResult, city: city });
     }
     catch (err){
         const errors = handleErrors(err);

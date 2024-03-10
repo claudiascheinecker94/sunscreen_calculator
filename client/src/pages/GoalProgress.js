@@ -4,6 +4,7 @@ import {useAuthStatus, useSecureRouting, useClearLocalStorage} from '../helpers/
 import { useLocalStorage } from '../context/LocalStorageContext';
 import  Heatmap from '../components/HeatmapComponent';
 import LineChartComponent from '../components/LineChartComponent';
+import AccountDetails from '../components/AccountDetailsComponent';
 
 const GoalProgress = () => {
     const { id } = useParams();
@@ -88,6 +89,7 @@ const GoalProgress = () => {
 
     return ( 
         <div>
+            <AccountDetails />
             { amount && <div className={style}><p>Result:</p>
             <p>You should reapply sunscreen every: { rateResult[0] } hour(s)</p>
             <p>Based on the sun hours of your location you need to reapply: { rateResult[1] } times today</p>

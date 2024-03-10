@@ -60,14 +60,14 @@ const Heatmap = () => {
              }
         }
 
-        //console.log(arrDate);
-        //console.log(arrSuccess);
+        //console.log("ArrDate " + arrDate);
+        //console.log("ArrSuccess "  + arrSuccess);
 
         arrDate.forEach(([month, day], i) => {
             successIndicator = arrSuccess[i]
             if(successIndicator = 1){
-                const monthIndex = month.charAt(1);
-                const dayIndex = day.charAt(1);
+                const monthIndex = parseInt(month);
+                const dayIndex = parseInt(day);
                 heatmapGridData[monthIndex-1][dayIndex-1] = successIndicator;
             }
         })

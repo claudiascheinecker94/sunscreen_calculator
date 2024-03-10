@@ -7,12 +7,7 @@ const Home = () => {
             </div>
             <div className="home">
                 <h1>Get Your Daily Dose of Sunscreen...</h1>
-                <br></br>
-                <br></br>
-                <br></br>
-                {/* <button>Login</button>
-                <button>Sign-up</button>
-                <button>Continue as Guest</button> */}
+                <button onClick={() => window.location.reload()}>Calculate...</button>
             </div>
         </div>
      );

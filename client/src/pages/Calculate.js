@@ -8,11 +8,9 @@ const Calculate = () => {
 
     //set form answers
     const { id } = useParams();
-    const [height, setHeight] = useState();
+    const [height, setHeight] = useState('');
     const [weight, setWeight] = useState();
     const [age, setAge] = useState();
-
-    //{ id && setHeight(height)}
     const [skinType, setSkinType] = useState();
     const [clothingChoice, setClothingChoice] = useState([]);
     const [inOut, setInOut] = useState();
@@ -39,12 +37,12 @@ const Calculate = () => {
     //dropdown options for form
     const skinTypeFormOptions = 
     [
-          {value: '1', label: 'Skin Type 1', image: 'skintype1.png'},
-          {value: '2', label: 'Skin Type 2', image: 'skintype2.png'},
-          {value: '3', label: 'Skin Type 3', image: 'skintype3.png'},
-          {value: '4', label: 'Skin Type 4', image: 'skintype4.png'},
-          {value: '5', label: 'Skin Type 5', image: 'skintype5.png'},
-          {value: '6', label: 'Skin Type 6', image: 'skintype6.png'},
+          {value: '1', label: 'Skin Type 1', image: '/skintype1.png'},
+          {value: '2', label: 'Skin Type 2', image: '/skintype2.png'},
+          {value: '3', label: 'Skin Type 3', image: '/skintype3.png'},
+          {value: '4', label: 'Skin Type 4', image: '/skintype4.png'},
+          {value: '5', label: 'Skin Type 5', image: '/skintype5.png'},
+          {value: '6', label: 'Skin Type 6', image: '/skintype6.png'},
     ];
 
     const indoorOutdoorFormOptions = 
@@ -57,21 +55,21 @@ const Calculate = () => {
     const clothingChoiceFormOptions = 
     [
           
-          {value: '3', label: 'Short Trousers/Skirts', image: 'Short_Bottoms.png'},
-          {value: '2', label: 'Short Sleeves', image: 'Short_Sleeves.png'},
-          {value: '1', label: 'Tank Top', image: 'Extra_Short_Sleeves.png'},
-          {value: '4', label: 'Short Dress', image: 'Short_Dress.png'},
-          {value: '11', label: 'Long Trousers/Skirts', image: 'Long_Bottoms.png'},
-          {value: '15', label: 'Long Sleeves', image: 'Long_Sleeves.png'},
-          {value: '10', label: 'Long Dress', image: 'Long_Dress.png'},   
+          {value: '3', label: 'Short Trousers/Skirts', image: '/Short_Bottoms.png'},
+          {value: '2', label: 'Short Sleeves', image: '/Short_Sleeves.png'},
+          {value: '1', label: 'Tank Top', image: '/Extra_Short_Sleeves.png'},
+          {value: '4', label: 'Short Dress', image: '/Short_Dress.png'},
+          {value: '11', label: 'Long Trousers/Skirts', image: '/Long_Bottoms.png'},
+          {value: '15', label: 'Long Sleeves', image: '/Long_Sleeves.png'},
+          {value: '10', label: 'Long Dress', image: '/Long_Dress.png'},   
     ];
 
     const plannedActivitiesFormOptions = 
     [
-          {value: 'sand', label: 'Beach Day', image: 'beach.png'},
-          {value: 'water', label: 'Indoor/Outdoor Swimming', image: 'swimming.png'},
-          {value: 'sweat', label: 'Indoor Exercise', image: 'indoor_exercise.png'},
-          {value: 'sweat+sun', label: 'Outdoor Exercise', image: 'outdoor_sports.webp'},
+          {value: 'sand', label: 'Beach Day', image: '/beach.png'},
+          {value: 'water', label: 'Indoor/Outdoor Swimming', image: '/swimming.png'},
+          {value: 'sweat', label: 'Indoor Exercise', image: '/indoor_exercise.png'},
+          {value: 'sweat+sun', label: 'Outdoor Exercise', image: '/outdoor_sports.webp'},
     ];
 
     const [isPending, setIsPending] = useState(false);
@@ -120,9 +118,9 @@ const Calculate = () => {
 
     return ( 
         <div className="create">
+            <h2>Daily Sunscreen Need</h2>
             {!result && (
                 <form onSubmit={handleSubmit}>
-                    <h2>Daily Sunscreen Need</h2>
                 <br></br>
                     <div>
                         <label>Height (in cm):</label>
@@ -206,10 +204,21 @@ const Calculate = () => {
             )}
             {result && (
                 <div>
-                    <p>Result:</p>
-                    <p>You should reapply sunscreen every: { result.rateResult[0] } hour(s)</p>
-                    <p>Based on the sun hours of your location you need to reapply: { result.rateResult[1] } times today</p>
-                    <p>Sunscreen Dose (in ml): { result.amount }</p>
+                    <div className="img">
+                        <img src="sun.jpeg" alt="Sun Cartoon"></img>   
+                    </div>
+                    <div className="guest-results">
+                        <h3>Recommendations of Today</h3>
+                        <br></br>
+                        <p>It seems you are currently in {result.city} 🌎</p>
+                        <p>Based on {result.city}'s weather conditions you should...</p>
+                        <br></br>
+                        <p>😎...reapply sunscreen every { result.rateResult[0] } hour(s).</p>
+                        <p>🌤...reapply { result.rateResult[1] } times.</p>
+                        <p>🧴...use { result.amount } ml of sunscreen per reapplication.</p>
+                        <br></br>
+                        <button onClick={() => window.location.reload()}>Calculate again...</button>
+                    </div>
                 </div>
             )}
         </div>

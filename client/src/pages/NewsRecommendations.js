@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
 import {useAuthStatus, useSecureRouting}  from '../helpers/Helper';
+import AccountDetails from '../components/AccountDetailsComponent';
 
     const NewsRecommendations = () => {
         const { user } = useAuthStatus();
@@ -34,6 +35,7 @@ import {useAuthStatus, useSecureRouting}  from '../helpers/Helper';
 
     return ( 
         <div>
+            <AccountDetails />
             <h2>Blogs</h2>
             {isPending && <p>Fetching Blogs...</p>}
             <div>
