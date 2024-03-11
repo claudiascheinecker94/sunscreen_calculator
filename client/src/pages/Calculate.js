@@ -16,6 +16,11 @@ const Calculate = () => {
     const [inOut, setInOut] = useState();
     const [plannedActivities, setPlannedActivities] = useState([]);
 
+    //input validation
+    const [heightError, setHeightError] = useState();
+    const [weightError, setWeightError] = useState();
+    const [ageError, setAgeError] = useState();
+
     //provide image dropdown options for skinType, plannedActivities and inOut
     const { SingleValue, Option } = components;
 
@@ -82,9 +87,30 @@ const Calculate = () => {
     //post form answers
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const params = { id, height, weight, skinType, clothingChoice, inOut, plannedActivities };
 
-        console.log(params);
+        if(age <= 1) {
+            setAgeError('Sunscreen for children under the age of 1 is not recommended.');
+            return;
+        } else {
+            setAgeError();
+        }
+
+        if(weight <=0) {
+            setWeightError('Please add a valid number.');
+            return;
+        } else {
+            setWeightError();
+        }
+
+        if(height <=0) {
+            setHeightError('Please add a valid number.');
+            return;
+        } else {
+            setHeightError();
+        }
+
+        const params = { id, height, weight, skinType, clothingChoice, inOut, plannedActivities };
+        //console.log(params);
 
         setIsPending(true);
         
@@ -104,6 +130,7 @@ const Calculate = () => {
                 const localStorageData = {
                     amount: result.amount,
                     rateResult:result.rateResult,
+                    city:result.city,
                     timestamp: new Date().getTime()
                 }
                 setLocalStorageData(localStorageData);
@@ -118,8 +145,9 @@ const Calculate = () => {
 
     return ( 
         <div className="create">
-            <h2>Daily Sunscreen Need</h2>
             {!result && (
+                <div>
+                <h2>Daily Sunscreen Need</h2>
                 <form onSubmit={handleSubmit}>
                 <br></br>
                     <div>
@@ -129,8 +157,9 @@ const Calculate = () => {
                             id="number" 
                             required
                             value={height}
-                            onChange={(e) => setHeight(e.target.value)}
+                            onChange={(e) => {setHeight(e.target.value)}}
                         />
+                        {heightError && <p>{heightError}</p>}
                     <br></br>
                     <br></br>
                     <label>Weight (in kg):</label>
@@ -139,8 +168,9 @@ const Calculate = () => {
                         type="number"
                         required
                         value={weight}
-                        onChange={(e) => setWeight(e.target.value)}
+                        onChange={(e) => {setWeight(e.target.value)}}
                     />
+                    {weightError && <p>{weightError}</p>}
                     <br></br>
                     <br></br>
                     <label>Age (in years):</label>
@@ -149,8 +179,9 @@ const Calculate = () => {
                         type="number" 
                         required
                         value={age}
-                        onChange={(e) => setAge(e.target.value)}
+                        onChange={(e) => {setAge(e.target.value)}}
                     />
+                    {ageError && <p>{ageError}</p>}
                     </div>
                     <br></br>
                     <br></br>
@@ -201,6 +232,7 @@ const Calculate = () => {
                     { !isPending && <button>Calculate</button>}
                     { isPending && <button disabled>Calculating...</button>}
                 </form>
+                </div>
             )}
             {result && (
                 <div>

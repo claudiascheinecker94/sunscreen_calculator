@@ -12,7 +12,7 @@ const GoalProgress = () => {
     useSecureRouting(user);
 
     const { localStorageData, setLocalStorageData} = useLocalStorage();
-    const { amount, rateResult, timestamp} = localStorageData;  
+    const { amount, city, rateResult, timestamp} = localStorageData;  
 
     console.log(localStorageData); 
     useClearLocalStorage();
@@ -90,15 +90,25 @@ const GoalProgress = () => {
     return ( 
         <div>
             <AccountDetails />
-            { amount && <div className={style}><p>Result:</p>
-            <p>You should reapply sunscreen every: { rateResult[0] } hour(s)</p>
-            <p>Based on the sun hours of your location you need to reapply: { rateResult[1] } times today</p>
-            <p>Sunscreen Dose (in ml): { amount }</p>
-            <button className={button} onClick={() => setSuccess('true')}>I did it!</button>
-            <button className={button} onClick={() => setSuccess('false')}>Oh no I forgot!</button>
+            { amount && 
+            <div className="user-results">
+                <div className={style}>
+                    <h3>Recommendations of Today</h3>
+                    <br></br>
+                    <p>It seems you are currently in {city} 🌎</p>
+                    <p>Based on {city}'s weather conditions you should...</p>
+                    <br></br>
+                    <p>😎...reapply sunscreen every { rateResult[0] } hour(s).</p>
+                    <p>🌤...reapply { rateResult[1] } times.</p>
+                    <p>🧴...use { amount } ml of sunscreen per reapplication.</p>
+                    <div className="button-setup">
+                        <button className={button} onClick={() => setSuccess('true')}>I did it!</button>
+                        <button className={button} onClick={() => setSuccess('false')}>Oh no I forgot!</button>
+                    </div>
+                </div>
             </div>}
             { !amount && <div>
-                <p>There is currenly no calculation.</p>
+                <p>There is currenly no recommendations, please navigate to the "Calculate" page.</p>
             </div>}
             <br></br>
             <br></br>

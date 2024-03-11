@@ -22,6 +22,7 @@ h1, h3, h4, ul, li, a, p, input, label, button, div, footer{
 
 h2 {
   margin: auto;
+  margin-top: 150px;
   width: 50%;
   text-align: center;
   padding: 10px;
@@ -33,7 +34,6 @@ h2 {
   background-color: #FEE996;
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 100px;
   margin-top: -10px;
   margin-right: -10px;
   margin-left: -10px;
@@ -131,6 +131,13 @@ button:hover{
   padding: 10px;
 }
 
+.user-results {
+  margin-left: 100px;
+  margin-top: 150px;
+  width: 60%;
+  padding: 10px;
+}
+
 header{
   display: flex;
   align-items: center;
@@ -143,6 +150,10 @@ header .btn{
   font-weight: bold;
   display: inline-block;
   font-size: 0.8em;
+}
+
+.heatmap {
+  box-shadow:#444;
 }
 
 .home{
@@ -164,11 +175,18 @@ footer{
 }
 
 .failureDeactive {
-  background-color: red;
+  border-radius: 5px;
+  background-color: crimson;
+  opacity: 60%;
+  padding: 40px;
+  margin: auto;
 }
 .successDeactive {
   border-radius: 5px;
   background-color: lightgreen;
+  opacity: 60%;
+  padding: 40px;
+  margin: auto;
 }
 
 .hide {

@@ -14,7 +14,6 @@ const UserPage = () => {
     return ( 
         <div>
             <AccountDetails />
-            <h3>Calculate away...</h3>
             <Calculate/>
         </div>      
      );
