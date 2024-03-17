@@ -33,11 +33,15 @@ const annualData = [
 const LineChartComponent = () => {
     const [reapplications, setReapplications] = useState([]);
     const [amount, setAmount] = useState([]);
+    const [dailyAvg, setDailyAvg] = useState();
+    const [maxAmount, setMaxAmount] = useState();
     const { id } = useParams();
     var readingCount = [0,0,0,0,0,0,0,0,0,0,0,0];
     var sumHourInterval = [0,0,0,0,0,0,0,0,0,0,0,0];
     var sumReapplications = [0,0,0,0,0,0,0,0,0,0,0,0];
     var sumAmount = 0;
+    var numReadings = 0;
+    var max = 0;
 
     useEffect(() => {
         const fetchData = async() => {
@@ -55,6 +59,7 @@ const LineChartComponent = () => {
                     var numReapplications = results.totalCalculations[i].reapplicationPerDay;
                     var hourInterval = results.totalCalculations[i].reapplicationRate;
                     var amount = results.totalCalculations[i].amount;
+                    
                      
                     switch(month) {
                     case '01':
@@ -122,6 +127,10 @@ const LineChartComponent = () => {
                     }
 
                     sumAmount += amount;
+                    numReadings++;
+                    if(amount > max) {
+                      max = amount;
+                    }
                 }
                 
                 // console.log(readingCount);
@@ -129,8 +138,8 @@ const LineChartComponent = () => {
                 // console.log(sumHourInterval);
                 for(var i=0; i<readingCount.length; i++){
                     if(readingCount[i] != 0){
-                        annualData[i].reapplication = sumReapplications[i]/readingCount[i];
-                        annualData[i].hourInterval = sumHourInterval[i]/readingCount[i];
+                        annualData[i].reapplication = Math.round((sumReapplications[i]/readingCount[i]*100)/100);
+                        annualData[i].hourInterval = Math.round((sumHourInterval[i]/readingCount[i]*100)/100);
                     } else {
                         annualData[i].reapplication = 0;
                         annualData[i].hourInterval = 0;
@@ -139,8 +148,8 @@ const LineChartComponent = () => {
                 //console.log(annualData)
                 setReapplications(annualData);
                 setAmount(sumAmount);
-
-
+                setDailyAvg(sumAmount/numReadings);
+                setMaxAmount(max);
             }  
           } catch (error) {
               console.log(error.message);
@@ -152,33 +161,47 @@ const LineChartComponent = () => {
     return (
       <div>
             <div>
-                <h2>This shows how often you should've reapplied your sunscreen...</h2>
-                <ResponsiveContainer width="100%" aspect={2}>
-                    <LineChart data={annualData}>
-                        <CartesianGrid />
-                        <XAxis dataKey="name" interval={"preserveStartEnd"} />
-                        <YAxis></YAxis>
-                        <Legend />
-                        <Tooltip />
-                        <Line
-                            name="Avg. reapplications/day"
-                            dataKey="reapplication"
-                            stroke="black"
-                            activeDot={{ r: 8 }}
-                        />
-                        <Line
-                            name="Avg. h btw reapplications"
-                            dataKey="hourInterval"
-                            stroke="red"
-                            activeDot={{ r: 8 }}
-                        />
-                    </LineChart>
-                </ResponsiveContainer>
+                <h3 className='chart-title'>This shows how often you should've reapplied your sunscreen...</h3>
+                <br></br>
+                <div className='chart-box'>
+                  <ResponsiveContainer width="100%" aspect={2}>
+                      <LineChart data={annualData}>
+                          <CartesianGrid />
+                          <XAxis dataKey="name" interval={"preserveStartEnd"} />
+                          <YAxis></YAxis>
+                          <Legend />
+                          <Tooltip />
+                          <Line
+                              name="Avg. reapplications/day"
+                              dataKey="reapplication"
+                              stroke="black"
+                              activeDot={{ r: 8 }}
+                          />
+                          <Line
+                              name="Avg. h btw reapplications"
+                              dataKey="hourInterval"
+                              stroke="red"
+                              activeDot={{ r: 8 }}
+                          />
+                      </LineChart>
+                  </ResponsiveContainer>
+                </div>
             </div>  
-            <div>
-                <h2>This total amount of sunscreen already used this year...</h2>
-                <p>{amount}</p>
-            </div>
+              <h3 className='chart-title'>You already applied this amount of sunscreen throughout the year...</h3>
+                <div className="cardRow">
+                  <div className='chart-box-small'>
+                    <p>Total:</p>
+                    <p>{Math.round(amount)} ml</p>
+                  </div>
+                  <div className='chart-box-small'>
+                    <p>Daily Avg:</p>
+                    <p>{Math.round(dailyAvg * 100)/100} ml</p>
+                  </div>
+                  <div className='chart-box-small'>
+                    <p>Highest Amount:</p>
+                    <p>{Math.round(maxAmount * 100)/100} ml</p>
+                  </div>
+              </div>
       </div>
     );
   };

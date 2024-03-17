@@ -9,7 +9,8 @@ import AccountSetup from './pages/AccountSetup';
 import UserPage from './pages/UserPage';
 import Calculate from './pages/Calculate';
 import GoalProgress from './pages/GoalProgress';
-import NewsRecommendations from './pages/NewsRecommendations';
+import News from './pages/News';
+import ProductRecommendations from "./pages/ProductRecommendations";
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -29,7 +30,8 @@ function App() {
             <Route path="/accountsetup/:id" element={<AccountSetup />} />
             <Route path="/userpage/:id" element={<UserPage />} />
             <Route path="/userpage/:id/goals" element={<GoalProgress />} />
-            <Route path="/userpage/:id/news" element={<NewsRecommendations />} />
+            <Route path="/userpage/:id/news" element={<News />} />
+            <Route path="/userpage/:id/products" element={<ProductRecommendations />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/calculate" element={<Calculate />} />
             <Route path="*" element={<NotFound />} />

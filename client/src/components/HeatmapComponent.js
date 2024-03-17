@@ -83,23 +83,24 @@ const Heatmap = () => {
   }, [id]);
 
   return (
-    <div className="heatmap">
-        <h3>Look at how diligent you were with your sunscreen use...</h3>
+    <div>
+        <h3 className='chart-title'>Look at how diligently you were with your sunscreen use...</h3>
         <br></br>
-        <br></br>
-        <HeatmapGrid
-            data={heatmapGridData}
-            xLabels={labels.xLabels}
-            yLabels={labels.yLabels}
-            squares
-            unit={"success"}
-            xLabelsLocation={"bottom"}
-            background={"#f0efeb"}
-            cellStyle={(background, value, min, max, data, x, y) => ({
-                background: `rgba(247, 185, 14, ${1 - (max - value)})`,
-              })}
-            height={30}
-        />
+        <div className="chart-box">
+          <HeatmapGrid
+              data={heatmapGridData}
+              xLabels={labels.xLabels}
+              yLabels={labels.yLabels}
+              squares
+              unit={"success"}
+              xLabelsLocation={"bottom"}
+              background={"#f0efeb"}
+              cellStyle={(background, value, min, max, data, x, y) => ({
+                  background: `rgba(247, 185, 14, ${1 - (max - value)})`,
+                })}
+              height={30}
+          />
+        </div>
     </div>
   );
 };

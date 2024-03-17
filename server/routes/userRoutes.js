@@ -8,6 +8,7 @@ router.put('/userpage/:detailId', userController.userpage_put);
 router.get(`/userpage/:id/goals`, userController.goals_get);
 router.post(`/userpage/:id/goals`, userController.goals_post);
 router.get(`/userpage/:id/news`, userController.news_get);
+//router.get(`/userpage/:id/products`, userController.products_get);
 
 
 module.exports = router;

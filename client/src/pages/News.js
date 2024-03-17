@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import {useAuthStatus, useSecureRouting}  from '../helpers/Helper';
 import AccountDetails from '../components/AccountDetailsComponent';
 
-    const NewsRecommendations = () => {
+    const News = () => {
         const { user } = useAuthStatus();
         useSecureRouting(user);
 
@@ -36,10 +36,14 @@ import AccountDetails from '../components/AccountDetailsComponent';
     return ( 
         <div>
             <AccountDetails />
-            <h2>Blogs</h2>
+            <div className='titleContainer bloglink'>
+                <div><h2><Link to={'/userpage/' + id + '/news'}>News</Link></h2></div>
+                <div><h2>||</h2></div>
+                <div><h2><Link to={'/userpage/' + id + '/products'}>Products</Link></h2></div>
+            </div>
             {isPending && <p>Fetching Blogs...</p>}
             <div>
-            {!isPending && <div className="bloglink">
+            {!isPending && <div className="blogContainer bloglink">
                 {articles.map((item, i) => (
                 <Link to={item.item.link} key={i}>
                 <p className="blogtitle">{item.item.title}</p>
@@ -53,4 +57,4 @@ import AccountDetails from '../components/AccountDetailsComponent';
      );
 }
  
-export default NewsRecommendations;
+export default News;
