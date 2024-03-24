@@ -32,7 +32,7 @@ import AccountDetails from '../components/AccountDetailsComponent';
     return ( 
         <div>
             <AccountDetails />
-            <div className='titleContainer bloglink'>
+            <div className='titleContainer bloglink header'>
                 <div><h2><Link to={'/userpage/' + id + '/news'}>News</Link></h2></div>
                 <div><h2>||</h2></div>
                 <div><h2><Link to={'/userpage/' + id + '/products'}>Products</Link></h2></div>

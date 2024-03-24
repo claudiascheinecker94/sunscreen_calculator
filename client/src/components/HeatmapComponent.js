@@ -84,7 +84,7 @@ const Heatmap = () => {
 
   return (
     <div>
-        <h3 className='chart-title'>Look at how diligently you were with your sunscreen use...</h3>
+        <h3 className='chart-title'>This shows how often you have achieved your daily sunscreen goal...</h3>
         <br></br>
         <div className="chart-box">
           <HeatmapGrid

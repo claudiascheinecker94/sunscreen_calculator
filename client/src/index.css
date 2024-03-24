@@ -2,18 +2,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 body{
+  /* background-image: url('../public/beauty-cosmetic-skincare-products-white-background-with-tropical-palm-leaves-flatlay-copy-space-set-white-jars-tubes-droppers-bottles-summer-spa-daily-natural-skin-care-routine-concept_136595-20774.jpg');
+  background-repeat: no-repeat;
+  background-size: cover; */
   font-size: 1.2rem;
   letter-spacing: 1px;
 }
 
-.background{
-  background: white;
-  background-image: url('../public/Background_yellow.png');
-  background-repeat: no-repeat;
-  opacity: 40%;
-}
-
-h1, h3, h4, ul, li, a, p, input, label, button, div, footer{
+h1, h3, h4, ul, li, p, a, input, label, button, div, footer{
   margin: 0;
   padding: 0;
   font-family: 'Quicksand', sans-serif;
@@ -22,7 +18,6 @@ h1, h3, h4, ul, li, a, p, input, label, button, div, footer{
 
 h2 {
   margin-top: 150px;
-  width: 50%;
   text-align: center;
   padding: 10px;
   font-family: 'Quicksand', sans-serif;
@@ -44,7 +39,8 @@ h2 {
 
 /*Navbar*/
 .navbar{
-  background-color: #FEE996;
+  background-color: orange;
+  opacity: 80%;
   display: flex;
   justify-content: flex-end;
   margin-top: -10px;
@@ -76,10 +72,12 @@ h2 {
 
 .hide {
   display: none;
+  background-color: white;
 }
 
 .show {
   display: block;
+  width: 26%;
 }
 
 
@@ -120,7 +118,7 @@ button{
   margin-top: 30px;
   margin-bottom: -20px;
   border-radius: 36px;
-  background: #FEE996;
+  background: orange;
   border:0;
   text-transform: uppercase;
   font-weight: 700;
@@ -138,6 +136,34 @@ button:hover{
 .button-setup {
   display:flex;
   justify-content: space-around;
+}
+
+.small-link a {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.small-link a:hover {
+  text-decoration: underline;
+}
+
+.explanation-text {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  font-size: 12px;
+  color: gray;
+}
+
+.confirmation-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 200px;
+  font-size: 30px;
+  flex-direction: column;
 }
 
 /*Goals & Form Results*/
@@ -175,10 +201,14 @@ button:hover{
   margin: auto;
 }
 
-header{
+/* .header{
   display: flex;
   align-items: center;
-}
+  width: 100%;
+  height: auto;
+  background-color: turquoise;
+  margin-left: -10px;
+} */
 
 header .btn{
   margin-top: 20px;
@@ -203,7 +233,15 @@ header .btn{
   margin-bottom: 40px;
   margin-left: 100px;
   padding: 20px;
+  background-color: white;
   
+}
+
+.chartRow {
+  display: flex;
+  flex-wrap: wrap;
+  width: 1000px;
+  justify-content: space-evenly;
 }
 
 .chart-box-small {
@@ -211,14 +249,15 @@ header .btn{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 150px;
-  height: 150px;
+  width: 220px;
+  height: 220px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   margin-bottom: 40px;
   margin-top: 20px;
   margin-left: 100px;
   padding: 20px;
   font-weight: bold;
+  background-color: white;
   
 }
 
@@ -265,7 +304,8 @@ header .btn{
   text-align: center;
   align-items: center;
   margin-right: 10px;
-  margin-bottom: 100px;
+  margin-bottom: 150px;
+  background-color: white;
 }
 
 .card:hover {

@@ -144,7 +144,7 @@ const Calculate = () => {
     }
 
     return ( 
-        <div className="create">
+        <div>
             {!result && (
                 <div>
                 <h2>Daily Sunscreen Need</h2>

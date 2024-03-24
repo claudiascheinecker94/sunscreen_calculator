@@ -19,6 +19,7 @@ const useAuthStatus = () => {
             } else {
                 const data = await response.json();
                 setUser(data.user);
+                
 
                 if (user && window.location.pathname === '/login') {
                     // Redirect to another page if the user is already logged in
@@ -44,8 +45,11 @@ const useSecureRouting  = (user) => {
 
     useEffect(() => {
         if (user && user._id !== id) {
-            navigate('/logout')
+            navigate('/logout');
           }
+        // if(user === null){
+        //     navigate('/logout');
+        // }
     }, [user, id, navigate])
 }
 

@@ -107,8 +107,8 @@ const GoalProgress = () => {
                     </div>
                 </div>
             </div>}
-            { !amount && <div>
-                <p>There is currenly no recommendations, please navigate to the "Calculate" page.</p>
+            { !amount && <div className="user-results">
+                <p>There are currenly no recommendations, please navigate to the "Calculate" page to calculate today's sunscreen recommendation.</p>
             </div>}
             <br></br>
             <br></br>

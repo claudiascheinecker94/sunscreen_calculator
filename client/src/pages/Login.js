@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -46,7 +46,7 @@ const Login = () => {
     }
 
     return ( 
-        <div className="create">
+        <div>
             <h2>Login</h2>
             <form onSubmit={handleSubmit}>
                 <label>Email:</label>
@@ -67,9 +67,12 @@ const Login = () => {
                 />
                 { !isPending && <button>Login</button>}
                 { isPending && <button disabled>Logging In...</button>}
+                <br></br>
+                <br></br>
                 { emailError && <p className="email error">{emailError}</p> }
                 { passwordError && <p className="password error">{passwordError}</p> }
             </form>
+            <p className="small-link"><Link to={'/forgotpassword'}>Forgot Password?</Link></p>
         </div>
      );
 }

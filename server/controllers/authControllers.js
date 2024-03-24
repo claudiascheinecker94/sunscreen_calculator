@@ -10,19 +10,19 @@ const handleErrors = (err) => {
 
     //incorrect email
     if(err.message === 'incorrect email'){
-        errors.email = 'that email is not registered';
+        errors.email = 'This email address is not registered';
         return errors;
     }
 
     //incorrect password
     if(err.message === 'incorrect password'){
-        errors.password = 'that password is incorrect';
+        errors.password = 'This password is incorrect';
         return errors;
     }
 
     // duplicate error code
     if (err.code === 11000) {
-        errors.email = 'that email is already registered';
+        errors.email = 'This email address is already registered';
         return errors;
     }
 
@@ -85,8 +85,6 @@ module.exports.signup_post = async (req, res) => {
     }
 }
 
-//emergency - just create a local variable, but unsafe
-//let globalUserId;
 
 module.exports.accountsetup_get = (req, res, next) => {
     res.render('accountsetup');
@@ -128,4 +126,78 @@ module.exports.login_post = async (req, res) => {
 module.exports.logout_get = (req, res) => {
     res.cookie('jwt', '', { maxAge: 1 });
     res.redirect('/');
+}
+
+module.exports.forgotpassword_post = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const user = await User.findOne({email});
+
+        //check if user was found in db
+        if(user !== null){
+            //create reset token
+            const resetToken = createToken(user._id);
+            user.resetToken = resetToken;
+            res.cookie('resetToken', resetToken, { httpOnly: true, expiresIn: '24h' });
+            await User.findOneAndUpdate({email: email}, user);
+        
+            //send email with reset link to user (for now console.log token)
+            console.log("reset link", `http://localhost:3000/resetpassword?resetToken=${resetToken}`);
+            res.status(200).json("Reset Instructions Sent");
+
+        } else {
+            const err = 'No user with this email found.';
+            res.status(400).json(err);
+        }
+
+    } catch (err) {
+        const errors = handleErrors(err);
+        res.status(400).json({ errors });
+    }
+}
+
+module.exports.resetpassword_post = async (req, res)=> {
+    console.log(req.body)
+    const password = req.body.password;
+    const resetToken = req.body.token;
+    var tokenVerified = false;
+
+
+    //check if reset token is valid
+    console.log('check token')
+    if(resetToken){
+        jwt.verify(resetToken, 'claudia secret', (err, decodedToken) => {
+            if(err){
+                console.log(err.message);
+            } else {
+                tokenVerified = true;
+                console.log('success');
+            }
+        })
+    } else {
+        console.log('No Token Detected');
+    }
+
+    //reset password
+    console.log('reset password')
+    if(tokenVerified) {
+        try {
+            const user = await User.findOne ({resetToken: resetToken});
+            
+            if(user) {
+                const email = user.email;
+                user.password = password;
+                user.resetToken = null;
+                await user.save(); 
+                res.status(200).json('Password reset successfully.');
+            } else {
+                res.status(400).json('Token has already been used. Please request a new token.');
+            }
+    
+        } catch (err) {
+            const errors = handleErrors(err);
+            res.status(400).json({errors});
+        }
+    }
 }

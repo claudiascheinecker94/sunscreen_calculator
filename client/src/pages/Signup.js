@@ -65,6 +65,8 @@ const Signup = () => {
                 />
                 { !isPending && <button>Sign Up</button>}
                 { isPending && <button disabled>Logging In...</button>}
+                <br></br>
+                <br></br>
                 { emailError && <p className="email error">{emailError}</p> }
                 { passwordError && <p className="password error">{passwordError}</p> }
             </form>

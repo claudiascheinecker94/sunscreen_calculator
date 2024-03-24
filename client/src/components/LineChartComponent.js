@@ -161,7 +161,7 @@ const LineChartComponent = () => {
     return (
       <div>
             <div>
-                <h3 className='chart-title'>This shows how often you should've reapplied your sunscreen...</h3>
+                <h3 className='chart-title'>This shows the amount of sunscreen applied already...</h3>
                 <br></br>
                 <div className='chart-box'>
                   <ResponsiveContainer width="100%" aspect={2}>
@@ -187,8 +187,8 @@ const LineChartComponent = () => {
                   </ResponsiveContainer>
                 </div>
             </div>  
-              <h3 className='chart-title'>You already applied this amount of sunscreen throughout the year...</h3>
-                <div className="cardRow">
+              <h3 className='chart-title'>You already applied this amount of sunscreen since you started your journey...</h3>
+                <div className="chartRow">
                   <div className='chart-box-small'>
                     <p>Total:</p>
                     <p>{Math.round(amount)} ml</p>
@@ -198,7 +198,7 @@ const LineChartComponent = () => {
                     <p>{Math.round(dailyAvg * 100)/100} ml</p>
                   </div>
                   <div className='chart-box-small'>
-                    <p>Highest Amount:</p>
+                    <p>Highest:</p>
                     <p>{Math.round(maxAmount * 100)/100} ml</p>
                   </div>
               </div>

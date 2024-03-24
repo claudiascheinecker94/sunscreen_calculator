@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes, useParams } from  "react-router
 import Navigation from './pages/Navigation';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Logout from './pages/Logout';
 import Signup from './pages/Signup';
 import AccountSetup from './pages/AccountSetup';
@@ -12,6 +14,7 @@ import GoalProgress from './pages/GoalProgress';
 import News from './pages/News';
 import ProductRecommendations from "./pages/ProductRecommendations";
 import NotFound from './pages/NotFound';
+import ReactSelect from "react-select";
 
 function App() {
 
@@ -26,6 +29,8 @@ function App() {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/accountsetup/:id" element={<AccountSetup />} />
             <Route path="/userpage/:id" element={<UserPage />} />
