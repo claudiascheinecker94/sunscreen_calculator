@@ -9,6 +9,7 @@ import Logout from './pages/Logout';
 import Signup from './pages/Signup';
 import AccountSetup from './pages/AccountSetup';
 import UserPage from './pages/UserPage';
+import DeleteAccount from './pages/DeleteAccount';
 import Calculate from './pages/Calculate';
 import GoalProgress from './pages/GoalProgress';
 import News from './pages/News';
@@ -33,6 +34,7 @@ function App() {
             <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/accountsetup/:id" element={<AccountSetup />} />
+            <Route path="/userpage/:id/deleteaccount" element={<DeleteAccount />} />
             <Route path="/userpage/:id" element={<UserPage />} />
             <Route path="/userpage/:id/goals" element={<GoalProgress />} />
             <Route path="/userpage/:id/news" element={<News />} />

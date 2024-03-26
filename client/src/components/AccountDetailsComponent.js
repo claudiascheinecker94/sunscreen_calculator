@@ -125,6 +125,7 @@ const AccountDetails = () => {
                                     }}>Cancel</button>
                             </>}
                         </div>
+                        <button><Link to={`/userpage/${id}/deleteaccount`}>Delete Account</Link></button>
                         <br></br>
                         <br></br>
                     </div>

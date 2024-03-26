@@ -40,6 +40,25 @@ module.exports.userpage_put = async (req, res) => {
     }       
 }
 
+module.exports.deleteaccount_delete = async (req, res) => {
+    let userId = req.params.id
+    let confirmationOfDeletion = false;
+
+    try {
+        await User.deleteOne({_id : userId});
+        await Detail.deleteOne({userId});
+        await Reading.deleteMany({userId});
+        await Goal.deleteMany({userId});
+
+        confirmationOfDeletion = true;
+        console.log('successfully deleted db entries');
+        res.status(200).json({confirmationOfDeletion});
+
+    } catch (error) {
+        res.status(400).json(error);
+    } 
+}
+
 module.exports.goals_get = async (req,res) => {
     try {
         let userId = req.params.id; //detailId = userId
@@ -90,26 +109,3 @@ module.exports.news_get = async (req, res) => {
     //<link rel="alternate" type="application/rss+xml" title="The Skin Cancer Foundation &raquo; Ask the Expert: Does a High SPF Protect My Skin Better? Comments Feed" href="https://www.skincancer.org/blog/ask-the-expert-does-a-high-spf-protect-my-skin-better/feed/" />
     //<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://thesunscreencompany.com/blog?format=rss" />
 }
-
-// module.exports.products_get = async (req, res) => {
-
-//     console.log('request received outside')
-//     try {
-//         console.log('request received inside')
-//         const productURL = "https://www.ewg.org/sunscreen/feed/"
-//         const parser = new Parser();
-//         let products = [];
-
-//         const feed = await parser.parseURL(productURL);
-            
-//         feed.items.forEach(item => {
-//             products.push({item})
-//         })
-
-//         console.log(products);
-//         res.status(200).json({products});
-//     } catch (error) {
-//         res.status(400).json({ error });
-//         console.log(error);
-//     }
-// }
