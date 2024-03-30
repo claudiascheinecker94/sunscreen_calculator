@@ -96,7 +96,7 @@ const Heatmap = () => {
               xLabelsLocation={"bottom"}
               background={"#f0efeb"}
               cellStyle={(background, value, min, max, data, x, y) => ({
-                  background: `rgba(247, 185, 14, ${0 - (max - value)})`,
+                  background: `rgba(247, 185, 14, ${1 - (max - value)})`,
                 })}
               height={30}
           />

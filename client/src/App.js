@@ -15,37 +15,40 @@ import GoalProgress from './pages/GoalProgress';
 import News from './pages/News';
 import ProductRecommendations from "./pages/ProductRecommendations";
 import NotFound from './pages/NotFound';
+import GuestCalculate from "./pages/GuestCalculate";
 import ReactSelect from "react-select";
+import { LocalStorageProvider } from './context/LocalStorageContext';
 
 function App() {
-
+  const { id } = useParams();
+  console.log('app id ' + id)
   const title = 'Sunscreen Calculator';
   //https://stackoverflow.com/questions/71444637/react-router-hide-nav-footer-on-certain-pages-with-router-v6
 
   return (
-    <Router>
-      <div className="App">
-        { <div><Navigation /></div> }
-        <div>
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/forgotpassword" element={<ForgotPassword />} />
-            <Route path="/resetpassword" element={<ResetPassword />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/accountsetup/:id" element={<AccountSetup />} />
-            <Route path="/userpage/:id/deleteaccount" element={<DeleteAccount />} />
-            <Route path="/userpage/:id" element={<UserPage />} />
-            <Route path="/userpage/:id/goals" element={<GoalProgress />} />
-            <Route path="/userpage/:id/news" element={<News />} />
-            <Route path="/userpage/:id/products" element={<ProductRecommendations />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/calculate" element={<Calculate />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+      <Router>
+        <div className="App">
+          { <div><Navigation /></div> }
+          <div>
+          <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/forgotpassword" element={<ForgotPassword />} />
+              <Route path="/resetpassword" element={<ResetPassword />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/accountsetup/:id" element={<AccountSetup />} />
+              <Route path="/userpage/:id/deleteaccount" element={<DeleteAccount />} />
+              <Route path="/userpage/:id" element={<UserPage />} />
+              <Route path="/userpage/:id/goals" element={<GoalProgress />}/>
+              <Route path="/userpage/:id/news" element={<News />} />
+              <Route path="/userpage/:id/products" element={<ProductRecommendations />} />
+              <Route path="/logout" element={<Logout />} />
+              <Route path="/calculate" element={<GuestCalculate />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
   );
 }
 

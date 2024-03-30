@@ -1,13 +1,10 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import Select from 'react-select';
 import { components } from "react-select";
-import { useLocalStorage } from '../context/LocalStorageContext';
 
-const Calculate = () => {
+const GuestCalculate = () => {
 
     //set form answers
-    const { id } = useParams();
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState();
     const [age, setAge] = useState();
@@ -79,9 +76,6 @@ const Calculate = () => {
 
     const [isPending, setIsPending] = useState(false);
     const [result, setResult] = useState();
-    const navigate = useNavigate();
-    const { localStorageData, updateLocalStorageData } = useLocalStorage(id);
-
 
 
     //post form answers
@@ -109,7 +103,7 @@ const Calculate = () => {
             setHeightError();
         }
 
-        const params = { id, height, weight, skinType, clothingChoice, inOut, plannedActivities };
+        const params = { height, weight, skinType, clothingChoice, inOut, plannedActivities };
         //console.log(params);
 
         setIsPending(true);
@@ -125,20 +119,6 @@ const Calculate = () => {
             setResult(result);
             console.log( "Result" + result);
             setIsPending(false);
-
-            console.log("old localStorageData", localStorageData);
-            
-            if(id){
-                const newLocalStorageData = {
-                    amount: result.amount,
-                    rateResult:result.rateResult,
-                    city:result.city,
-                    timestamp: new Date().getTime()
-                }
-                console.log("new localStorageData", newLocalStorageData);
-                updateLocalStorageData(id, newLocalStorageData);
-                navigate(`/userpage/${id}/goals`)
-            }
             
     
         } catch (error) {
@@ -260,4 +240,4 @@ const Calculate = () => {
      );
 }
  
-export default Calculate;
+export default GuestCalculate;

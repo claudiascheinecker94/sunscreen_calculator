@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
-const ForgotPassword = () => {
+const DeleteAccount = () => {
     const [data, setData] = useState('');
-    const [isPending, setIsPending] = useState(false);
+    const [deleting, setDeleting] = useState(false);
     const navigate = useNavigate(); 
     const { id } = useParams();
 
     const deleteAccount = async() => {
-
-        setIsPending(true);
         
         try {
             const res = await fetch(`http://localhost:3000/userpage/${id}/deleteaccount`, {
@@ -19,10 +17,13 @@ const ForgotPassword = () => {
 
             const data = await res.json();
             setData(data);
-            setIsPending(false);
 
             if(res.ok){
-                navigate(`/logout`);
+                setDeleting(true);
+                setTimeout(() => {
+                    navigate(`/logout`);
+                }, 2000);
+                //localstorage cleared only after 24h
             }
     
         } catch (error) {
@@ -32,7 +33,7 @@ const ForgotPassword = () => {
 
     return ( 
         <div>
-            {!data && <div>
+            {!deleting && <div>
                 <h2>Are you sure you want to delete your account?</h2>
                 <p className="explanation-text">This action is irreversible, your data will be permanently deleted.</p>
                 <div className="button-setup">
@@ -40,13 +41,11 @@ const ForgotPassword = () => {
                     <button><Link to={`/userpage/${id}`}>Cancel</Link></button>
                 </div>
             </div>}
-            {data && <div>
-                <p className="confirmation-text">{data}</p>
-                <br></br>
-                <p className="explanation-text">Please check your email inbox and spam folder.</p>
+            {deleting && <div>
+                <p className="confirmation-text">We are deleting your account...</p>
             </div>}
         </div>
      );
 }
  
-export default ForgotPassword;
+export default DeleteAccount;
